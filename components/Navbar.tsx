@@ -36,24 +36,24 @@ export default function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll);
+    handleScroll();
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <nav className="sticky top-0 z-50 border-b border-gold/15 bg-navy/70 px-[5%] py-4 backdrop-blur-xl">
       <div className="mx-auto flex max-w-[1400px] items-center justify-between">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 text-cream">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-gold to-gold-light shadow-lg">
             <div className="flex flex-col items-center gap-1">
-              <div className="h-5 w-1 bg-navy rounded" />
-              <div className="h-1 w-5 bg-navy rounded" />
+              <div className="h-5 w-1 rounded bg-navy" />
+              <div className="h-1 w-5 rounded bg-navy" />
             </div>
           </div>
           <span className="font-serif text-lg font-bold">True Light</span>
         </Link>
 
-        {/* Desktop Nav */}
         {isFullNav && (
           <div className="flex items-center gap-8">
             {navLinks.map((link) => (
@@ -72,35 +72,50 @@ export default function Navbar() {
           </div>
         )}
 
-        {/* Right side */}
         <div className="flex items-center gap-4">
           {isFullNav && (
             <>
               <button
-                onClick={() => setLang(lang === 'en' ? 'am' : 'en')}
-                className="text-xs font-semibold text-cream/60 hover:text-gold transition-colors uppercase tracking-wide"
+                type="button"
+                onClick={toggleLanguage}
+                className="text-xs font-semibold uppercase tracking-wide text-cream/60 transition-colors hover:text-gold"
               >
-                {lang === 'en' ? 'አማርኛ' : 'English'}
+                {lang === "en" ? "አማርኛ" : "English"}
               </button>
-              <Button href="#visit" size="sm">{t('nav.plan-visit')}</Button>
+
+              <Button href="#visit" size="sm">
+                {t("nav.plan-visit")}
+              </Button>
             </>
           )}
-          
+
           {!isFullNav && (
             <button
+              type="button"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
               className="flex flex-col gap-1.5 p-2"
             >
-              <span className={`block h-0.5 w-6 bg-cream transition-all ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
-              <span className={`block h-0.5 w-6 bg-cream transition-all ${mobileOpen ? "opacity-0" : ""}`} />
-              <span className={`block h-0.5 w-6 bg-cream transition-all ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+              <span
+                className={`block h-0.5 w-6 bg-cream transition-all ${
+                  mobileOpen ? "translate-y-2 rotate-45" : ""
+                }`}
+              />
+              <span
+                className={`block h-0.5 w-6 bg-cream transition-all ${
+                  mobileOpen ? "opacity-0" : ""
+                }`}
+              />
+              <span
+                className={`block h-0.5 w-6 bg-cream transition-all ${
+                  mobileOpen ? "-translate-y-2 -rotate-45" : ""
+                }`}
+              />
             </button>
           )}
         </div>
       </div>
 
-      {/* Mobile Nav */}
       {!isFullNav && mobileOpen && (
         <div className="mt-4 flex flex-col gap-3 border-t border-cream/10 pt-4">
           {navLinks.map((link) => (
@@ -113,14 +128,19 @@ export default function Navbar() {
               {t(link.labelKey)}
             </a>
           ))}
-          <div className="flex gap-3 items-center pt-2">
+
+          <div className="flex items-center gap-3 pt-2">
             <button
-              onClick={() => setLang(lang === 'en' ? 'am' : 'en')}
-              className="text-xs font-semibold text-cream/60 hover:text-gold transition-colors uppercase tracking-wide"
+              type="button"
+              onClick={toggleLanguage}
+              className="text-xs font-semibold uppercase tracking-wide text-cream/60 transition-colors hover:text-gold"
             >
-              {lang === 'en' ? 'አማርኛ' : 'English'}
+              {lang === "en" ? "አማርኛ" : "English"}
             </button>
-            <Button href="#visit" className="mt-0">{t('nav.plan-visit')}</Button>
+
+            <Button href="#visit" className="mt-0">
+              {t("nav.plan-visit")}
+            </Button>
           </div>
         </div>
       )}
