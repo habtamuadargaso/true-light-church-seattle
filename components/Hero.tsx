@@ -1,16 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import Button from "@/components/ui/Button";
 import { useLanguage } from "@/lib/language";
 
-const HeroScene = dynamic(() => import("@/components/HeroScene"), {
-  ssr: false,
-});
-
 const heroImages = [
   "/building-sunset.png",
+  "/building-day.png",
   "/worship-1.jpg",
   "/congregation-2.jpg",
 ];
@@ -28,22 +24,18 @@ export default function Hero() {
           <Image
             key={src}
             src={src}
-            alt="True Light International Evangelical Church"
+            alt="True Light International Evangelical Church Seattle"
             fill
             priority={index === 0}
             className="animate-hero-photo object-cover"
-            style={{
-              animationDelay: `${index * 6}s`,
-            }}
+            style={{ animationDelay: `${index * 6}s` }}
             sizes="100vw"
           />
         ))}
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-navy/80 via-navy/55 to-navy/90" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(201,164,92,0.32),transparent_45%)]" />
-
-      <HeroScene />
+      <div className="absolute inset-0 bg-gradient-to-b from-navy/85 via-navy/55 to-navy/95" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(201,164,92,0.22),transparent_45%)]" />
 
       <div className="relative z-10 flex max-w-4xl flex-col items-center gap-6 text-center">
         <span className="animate-fade-up text-xs font-semibold uppercase tracking-[0.28em] text-gold">
