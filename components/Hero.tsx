@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import Button from "@/components/ui/Button";
 import { useLanguage } from "@/lib/language";
@@ -8,34 +9,71 @@ const HeroScene = dynamic(() => import("@/components/HeroScene"), {
   ssr: false,
 });
 
+const heroImages = [
+  "/building-sunset.png",
+  "/worship-1.jpg",
+  "/congregation-2.jpg",
+];
+
 export default function Hero() {
   const { t } = useLanguage();
+
   return (
     <section
       id="hero"
-      className="relative flex min-h-[92vh] items-center justify-center overflow-hidden bg-[radial-gradient(ellipse_at_50%_0%,#16305a_0%,#0b1f3a_55%,#081729_100%)] px-[5%] pb-20 pt-24"
+      className="relative flex min-h-[92vh] items-center justify-center overflow-hidden bg-navy px-[5%] pb-20 pt-24"
     >
+      <div className="absolute inset-0">
+        {heroImages.map((src, index) => (
+          <Image
+            key={src}
+            src={src}
+            alt="True Light International Evangelical Church"
+            fill
+            priority={index === 0}
+            className="animate-hero-photo object-cover"
+            style={{
+              animationDelay: `${index * 6}s`,
+            }}
+            sizes="100vw"
+          />
+        ))}
+      </div>
+
+      <div className="absolute inset-0 bg-gradient-to-b from-navy/80 via-navy/55 to-navy/90" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(201,164,92,0.32),transparent_45%)]" />
+
       <HeroScene />
 
-      <div className="animate-fade-up relative z-[2] flex max-w-3xl flex-col items-center gap-6 text-center">
-        <span className="text-xs font-semibold uppercase tracking-[0.28em] text-gold">
-          {t('hero.location')}
+      <div className="relative z-10 flex max-w-4xl flex-col items-center gap-6 text-center">
+        <span className="animate-fade-up text-xs font-semibold uppercase tracking-[0.28em] text-gold">
+          {t("hero.location")}
         </span>
-        <h1 className="font-serif text-[clamp(2.375rem,6vw,4.25rem)] font-bold leading-[1.08] text-balance text-cream">
-          {t('hero.title')}
+
+        <h1 className="animate-fade-up font-serif text-[clamp(2.6rem,7vw,5.75rem)] font-bold leading-[1.02] text-cream text-balance">
+          {t("hero.title")}
         </h1>
-        <p className="max-w-xl text-lg leading-relaxed text-balance text-[#cdd6e4]">
-          {t('hero.subtitle')}
+
+        <p className="animate-fade-up max-w-2xl text-lg leading-relaxed text-[#dce6f3] text-balance md:text-xl">
+          {t("hero.subtitle")}
         </p>
-        <div className="mt-1.5 flex flex-wrap justify-center gap-4">
-          <Button href="#visit">{t('hero.visit')}</Button>
+
+        <div className="animate-fade-up mt-2 flex flex-wrap justify-center gap-4">
+          <Button href="#visit">{t("hero.visit")}</Button>
           <Button href="#sermons" variant="outline-light">
-            {t('hero.sermons')}
+            {t("hero.sermons")}
           </Button>
         </div>
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 z-[1] h-32 bg-linear-to-b from-transparent to-cream" />
+      <div className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 text-cream/70 md:flex">
+        <span className="text-xs uppercase tracking-[0.25em]">Scroll</span>
+        <div className="h-10 w-[1px] overflow-hidden bg-cream/20">
+          <div className="h-5 w-full animate-scroll-line bg-gold" />
+        </div>
+      </div>
+
+      <div className="absolute inset-x-0 bottom-0 z-[5] h-32 bg-gradient-to-b from-transparent to-cream" />
     </section>
   );
 }
