@@ -118,18 +118,3 @@ textarea:focus-visible,
     scroll-behavior: auto;
   }
 }
-
-@keyframes premiumHeroZoom {
-  from {
-    transform: scale(1.02);
-  }
-
-  to {
-    transform: scale(1.08);
-  }
-}
-
-.animate-premium-hero {
-  animation: premiumHeroZoom 22s ease-out infinite alternate;
-  will-change: transform;
-}
