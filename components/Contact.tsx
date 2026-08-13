@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { siteConfig } from "@/lib/site-config";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import { useLanguage } from "@/lib/language";
@@ -57,7 +58,8 @@ export default function Contact() {
             <div>
               <div className="mb-1 font-semibold text-navy">{t("contact.address")}</div>
               <p className="text-[16px] text-[#4b5566]">
-                15211 15th Ave NE<br />Shoreline, WA 98155
+                {siteConfig.address.street}<br />
+                {siteConfig.address.city}, {siteConfig.address.state} {siteConfig.address.zip}
               </p>
             </div>
             <div>

@@ -26,8 +26,8 @@ export default function Visit() {
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-        <Reveal className="relative h-[400px] overflow-hidden rounded-2xl shadow-lg">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
+        <Reveal className="relative h-[400px] overflow-hidden rounded-[24px] shadow-xl ring-1 ring-navy/5 lg:h-full lg:min-h-[560px]">
           <iframe
             src={siteConfig.mapsEmbedUrl}
             width="100%"
@@ -40,7 +40,7 @@ export default function Visit() {
           />
         </Reveal>
 
-        <Reveal delay={0.1} className="flex flex-col gap-8">
+        <Reveal delay={0.1} className="flex flex-col gap-8 rounded-[24px] border border-navy/10 bg-white p-8 shadow-sm sm:p-10">
           <div>
             <h3 className="mb-2 font-serif text-2xl font-bold text-navy">
               {t("visit.location")}
@@ -61,11 +61,11 @@ export default function Visit() {
             </h3>
             <div className="space-y-3">
               <div>
-                <div className="font-semibold text-gold">{t("visit.sunday")}</div>
+                <div className="font-semibold text-gold-deep">{t("visit.sunday")}</div>
                 <div className="text-[16px] text-[#4b5566]">{t("visit.sundayTime")}</div>
               </div>
               <div>
-                <div className="font-semibold text-gold">{t("visit.bible")}</div>
+                <div className="font-semibold text-gold-deep">{t("visit.bible")}</div>
                 <div className="text-[16px] text-[#4b5566]">{t("visit.bibleTime")}</div>
               </div>
             </div>
@@ -75,10 +75,10 @@ export default function Visit() {
             <h3 className="mb-4 font-serif text-2xl font-bold text-navy">
               {t("visit.expect")}
             </h3>
-            <ul className="space-y-2 text-[16px] text-[#4b5566]">
+            <ul className="space-y-2.5 text-[16px] text-[#4b5566]">
               {expectItems.map((item) => (
                 <li key={item} className="flex gap-3">
-                  <span className="font-bold text-gold">✓</span>
+                  <span className="font-bold text-gold-deep">✓</span>
                   <span>{item}</span>
                 </li>
               ))}

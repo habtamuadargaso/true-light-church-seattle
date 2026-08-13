@@ -29,9 +29,16 @@ export default function Ministries() {
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {ministryStyles.map((ministry, i) => (
           <Reveal key={ministry.key} delay={Math.min(i * 0.06, 0.3)}>
-            <div className="group relative overflow-hidden rounded-2xl border border-navy/10 bg-gradient-to-br from-white to-cream/20 p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-lg">
+            <div className="group relative h-full overflow-hidden rounded-[22px] border border-navy/10 bg-gradient-to-br from-white to-cream/20 p-8 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/30 hover:shadow-xl">
+              <span
+                aria-hidden
+                className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-gradient-to-r from-gold to-gold-light transition-transform duration-300 group-hover:scale-x-100"
+              />
               <div className="absolute right-0 top-0 h-24 w-24 rounded-full opacity-5" style={{ background: ministry.bg }} />
-              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl text-2xl font-bold text-cream" style={{ background: ministry.bg }}>
+              <div
+                className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl text-2xl font-bold text-cream shadow-md transition-transform duration-300 group-hover:scale-105"
+                style={{ background: ministry.bg }}
+              >
                 {ministry.letter}
               </div>
               <h3 className="mb-3 font-serif text-2xl font-bold text-navy">
@@ -40,9 +47,9 @@ export default function Ministries() {
               <p className="text-[16px] leading-[1.6] text-[#4b5566]">
                 {t(`ministries.${ministry.key}.desc`)}
               </p>
-              <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-gold opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-gold-deep opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 {t("ministries.learnMore")}
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </div>

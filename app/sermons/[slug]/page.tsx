@@ -6,6 +6,7 @@ import { siteConfig } from "@/lib/site-config";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PlayGlyph from "@/components/ui/PlayGlyph";
+import YouTubeEmbed from "@/components/ui/YouTubeEmbed";
 
 interface SermonPageProps {
   params: Promise<{ slug: string }>;
@@ -51,12 +52,16 @@ export default async function SermonPage({ params }: SermonPageProps) {
           ← All sermons
         </Link>
 
-        <div className="relative mb-8 flex aspect-video items-center justify-center overflow-hidden rounded-2xl bg-[repeating-linear-gradient(135deg,#0b1f3a,#0b1f3a_12px,#122a4d_12px,#122a4d_24px)] shadow-[0_20px_50px_rgba(11,31,58,0.15)]">
-          <PlayGlyph size={72} />
-          <span className="absolute bottom-4 left-4 text-xs text-[#c9d3e2]">
-            Full video coming soon
-          </span>
-        </div>
+        {sermon.youtubeUrl ? (
+          <YouTubeEmbed url={sermon.youtubeUrl} title={sermon.title} className="mb-8 shadow-[0_20px_50px_rgba(11,31,58,0.15)]" />
+        ) : (
+          <div className="relative mb-8 flex aspect-video items-center justify-center overflow-hidden rounded-2xl bg-[repeating-linear-gradient(135deg,#0b1f3a,#0b1f3a_12px,#122a4d_12px,#122a4d_24px)] shadow-[0_20px_50px_rgba(11,31,58,0.15)]">
+            <PlayGlyph size={72} />
+            <span className="absolute bottom-4 left-4 text-xs text-[#c9d3e2]">
+              Full video coming soon
+            </span>
+          </div>
+        )}
 
         <span className="text-[12.5px] font-bold uppercase tracking-[0.1em] text-gold-deep">
           {sermon.series}
@@ -66,10 +71,21 @@ export default async function SermonPage({ params }: SermonPageProps) {
         </h1>
         <p className="mt-3 text-sm text-[#5b6472]">
           {sermon.speaker} · {sermon.date}
+          {sermon.scripture ? ` · ${sermon.scripture}` : ""}
         </p>
         <p className="mt-6 text-base leading-relaxed text-[#4b5566]">
           {sermon.description}
         </p>
+        {sermon.youtubeUrl && (
+          <a
+            href={sermon.youtubeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-block text-sm font-semibold text-navy underline decoration-gold decoration-2 underline-offset-4"
+          >
+            Watch on YouTube ↗
+          </a>
+        )}
       </article>
       </main>
 

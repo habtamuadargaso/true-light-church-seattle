@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import ServiceTimes from "@/components/ServiceTimes";
 import Ministries from "@/components/Ministries";
+import Pastor from "@/components/Pastor";
 import Sermons from "@/components/Sermons";
 import Gallery from "@/components/Gallery";
 import Events from "@/components/Events";
@@ -21,6 +22,7 @@ export default function Home() {
         <About />
         <ServiceTimes />
         <Ministries />
+        <Pastor />
         <Sermons />
         <Gallery />
         <Events />

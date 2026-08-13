@@ -16,7 +16,7 @@ export default function Giving() {
   const hasGivingUrl = Boolean(siteConfig.givingUrl && siteConfig.givingUrl !== "#");
 
   return (
-    <section className="mx-auto max-w-[1200px] px-[5%] py-32">
+    <section id="giving" className="mx-auto max-w-[1200px] px-[5%] py-32">
       <div className="mb-16 flex justify-center">
         <SectionHeading
           eyebrow={t("giving.eyebrow")}

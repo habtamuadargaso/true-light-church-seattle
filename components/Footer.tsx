@@ -2,6 +2,7 @@
 
 import { siteConfig } from "@/lib/site-config";
 import { useLanguage } from "@/lib/language";
+import { FacebookIcon, InstagramIcon, YouTubeIcon } from "@/components/ui/SocialIcons";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -10,16 +11,25 @@ export default function Footer() {
   const quickLinks = [
     { href: "#about", label: t("nav.about") },
     { href: "#services", label: t("nav.services") },
+    { href: "#ministries", label: t("nav.ministries") },
+    { href: "#pastor", label: t("nav.pastor") },
     { href: "#sermons", label: t("nav.sermons") },
     { href: "#gallery", label: t("nav.gallery") },
+    { href: "#events", label: t("nav.events") },
+    { href: "#visit", label: t("nav.visit") },
     { href: "#contact", label: t("nav.contact") },
+    { href: "#giving", label: t("footer.give") },
   ];
   const ministryLinks = [
     t("ministries.worship.title"),
     t("ministries.youth.title"),
     t("ministries.prayer.title"),
     t("ministries.bible.title"),
+    t("ministries.children.title"),
+    t("ministries.outreach.title"),
   ];
+
+  const hasSocial = Object.values(siteConfig.social).some((url) => url && url !== "#");
 
   return (
     <footer className="border-t border-navy/10 bg-navy text-cream">
@@ -36,6 +46,62 @@ export default function Footer() {
               <span className="font-serif text-lg font-bold">True Light</span>
             </div>
             <p className="max-w-xs text-sm text-cream/70">{t("footer.tagline")}</p>
+
+            <div className="mt-2">
+              <h4 className="mb-3 text-xs font-semibold uppercase tracking-wide text-cream/50">
+                {t("footer.social")}
+              </h4>
+              {hasSocial ? (
+                <div className="flex items-center gap-3">
+                  {siteConfig.social.facebook && siteConfig.social.facebook !== "#" && (
+                    <a
+                      href={siteConfig.social.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Facebook"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/15 text-cream/70 transition-colors hover:border-gold/50 hover:text-gold"
+                    >
+                      <FacebookIcon />
+                    </a>
+                  )}
+                  {siteConfig.social.instagram && siteConfig.social.instagram !== "#" && (
+                    <a
+                      href={siteConfig.social.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Instagram"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/15 text-cream/70 transition-colors hover:border-gold/50 hover:text-gold"
+                    >
+                      <InstagramIcon />
+                    </a>
+                  )}
+                  {siteConfig.social.youtube && siteConfig.social.youtube !== "#" && (
+                    <a
+                      href={siteConfig.social.youtube}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="YouTube"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/15 text-cream/70 transition-colors hover:border-gold/50 hover:text-gold"
+                    >
+                      <YouTubeIcon />
+                    </a>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center gap-3" aria-hidden="true">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/10 text-cream/25">
+                    <FacebookIcon />
+                  </span>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/10 text-cream/25">
+                    <InstagramIcon />
+                  </span>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/10 text-cream/25">
+                    <YouTubeIcon />
+                  </span>
+                  <span className="text-xs text-cream/40">{t("footer.socialComingSoon")}</span>
+                </div>
+              )}
+            </div>
           </div>
 
           <div>
