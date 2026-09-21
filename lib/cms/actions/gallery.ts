@@ -3,57 +3,62 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-
-const MAX_GALLERY_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB, matches next.config.ts serverActions.bodySizeLimit
-const ALLOWED_GALLERY_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
+import { ALLOWED_GALLERY_EXTENSIONS } from "@/lib/cms/gallery-shared";
 
 function revalidatePublicPages() {
   revalidatePath("/");
   revalidatePath("/admin/gallery");
 }
 
-export async function uploadGalleryItemAction(formData: FormData) {
+export interface GalleryItemInput {
+  imagePath: string;
+  altText: string;
+  category: string | null;
+  published: boolean;
+}
+
+export type CreateGalleryItemResult = { id: string } | { error: string };
+
+/**
+ * Records one gallery item for a photo the browser has already uploaded
+ * directly to Supabase Storage (see BulkPhotoUploader). This action only
+ * ever receives small JSON metadata — never file bytes — so uploading many
+ * photos at once never depends on the Server Action request body limit.
+ * Runs with the caller's own cookie-authenticated session, so the existing
+ * "admins can write gallery items" RLS policy applies; no service role key.
+ */
+export async function createGalleryItemAction(input: GalleryItemInput): Promise<CreateGalleryItemResult> {
   const supabase = await createSupabaseServerClient();
-  if (!supabase) return;
+  if (!supabase) return { error: "Supabase is not configured." };
 
-  const file = formData.get("file");
-  const altText = String(formData.get("alt_text") ?? "").trim();
-  const category = String(formData.get("category") ?? "").trim() || null;
-  const sortOrder = Number(formData.get("sort_order") ?? 0) || 0;
-  const published = formData.get("published") === "on";
-
-  if (!(file instanceof File) || file.size === 0 || !altText) return;
-
-  if (file.size > MAX_GALLERY_FILE_SIZE_BYTES) {
-    redirect("/admin/gallery/new?error=too-large");
-  }
-  if (!ALLOWED_GALLERY_IMAGE_TYPES.has(file.type)) {
-    redirect("/admin/gallery/new?error=invalid-type");
+  const imagePath = input.imagePath;
+  const extension = imagePath.split(".").pop()?.toLowerCase() ?? "";
+  if (!imagePath.startsWith("gallery/") || !ALLOWED_GALLERY_EXTENSIONS.has(extension)) {
+    return { error: "Invalid photo reference." };
   }
 
-  const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
-  const path = `gallery/${crypto.randomUUID()}.${extension}`;
+  const altText = input.altText.trim().slice(0, 300) || "Gallery photo";
+  const category = input.category?.trim() || null;
 
-  const { error: uploadError } = await supabase.storage.from("media").upload(path, file, {
-    contentType: file.type || undefined,
-    upsert: false,
-  });
-  if (uploadError) throw uploadError;
+  const { data, error } = await supabase
+    .from("gallery_items")
+    .insert({ image_path: imagePath, alt_text: altText, category, sort_order: 0, published: input.published })
+    .select("id")
+    .single();
 
-  const { error: insertError } = await supabase.from("gallery_items").insert({
-    image_path: path,
-    alt_text: altText,
-    category,
-    sort_order: sortOrder,
-    published,
-  });
-  if (insertError) {
-    await supabase.storage.from("media").remove([path]);
-    throw insertError;
+  if (error || !data) {
+    // Storage upload already succeeded — clean up the orphaned object so a
+    // DB failure never leaves an unreferenced file in the media bucket.
+    await supabase.storage.from("media").remove([imagePath]);
+    return { error: error?.message ?? "Could not save this photo." };
   }
 
+  return { id: data.id };
+}
+
+/** Revalidates the public/admin gallery pages once after a bulk upload batch finishes. */
+export async function finalizeGalleryUploadAction(): Promise<void> {
   revalidatePublicPages();
-  redirect("/admin/gallery");
 }
 
 export async function updateGalleryItemAction(id: string, formData: FormData) {
