@@ -5,11 +5,26 @@ import { uploadGalleryItemAction } from "@/lib/cms/actions/gallery";
 
 export const metadata: Metadata = { title: "Upload Photo" };
 
-export default function NewGalleryItemPage() {
+const ERROR_MESSAGES: Record<string, string> = {
+  "too-large": "That photo is too large — please upload an image up to 10 MB.",
+  "invalid-type": "Unsupported file type — please upload a JPEG, PNG, WEBP, or GIF image.",
+};
+
+interface NewGalleryItemPageProps {
+  searchParams: Promise<{ error?: string }>;
+}
+
+export default async function NewGalleryItemPage({ searchParams }: NewGalleryItemPageProps) {
+  const { error } = await searchParams;
+  const message = error ? ERROR_MESSAGES[error] : null;
+
   return (
     <div>
       <AdminPageHeader title="Upload Photo" />
       <AdminCard>
+        {message && (
+          <p className="mb-5 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{message}</p>
+        )}
         <form action={uploadGalleryItemAction} className="flex flex-col gap-5">
           <div>
             <label htmlFor="file" className="mb-1.5 block text-sm font-medium text-slate-700">
@@ -19,12 +34,13 @@ export default function NewGalleryItemPage() {
               id="file"
               name="file"
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png,image/webp,image/gif"
               required
               className="block w-full text-sm text-slate-600 file:mr-4 file:rounded-lg file:border-0 file:bg-navy file:px-4 file:py-2 file:text-sm file:font-semibold file:text-cream"
             />
             <p className="mt-1 text-xs text-slate-400">
-              Upload the photo exactly as taken — it is not resized, retouched, or altered.
+              Upload the photo exactly as taken — it is not resized, retouched, or altered. JPEG, PNG, WEBP, or GIF,
+              up to 10 MB.
             </p>
           </div>
 

@@ -4,6 +4,9 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
+const MAX_GALLERY_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB, matches next.config.ts serverActions.bodySizeLimit
+const ALLOWED_GALLERY_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
+
 function revalidatePublicPages() {
   revalidatePath("/");
   revalidatePath("/admin/gallery");
@@ -20,6 +23,13 @@ export async function uploadGalleryItemAction(formData: FormData) {
   const published = formData.get("published") === "on";
 
   if (!(file instanceof File) || file.size === 0 || !altText) return;
+
+  if (file.size > MAX_GALLERY_FILE_SIZE_BYTES) {
+    redirect("/admin/gallery/new?error=too-large");
+  }
+  if (!ALLOWED_GALLERY_IMAGE_TYPES.has(file.type)) {
+    redirect("/admin/gallery/new?error=invalid-type");
+  }
 
   const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
   const path = `gallery/${crypto.randomUUID()}.${extension}`;

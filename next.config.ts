@@ -12,6 +12,13 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    serverActions: {
+      // Default Server Action body limit is 1 MB, which rejects normal
+      // camera/phone photos on the gallery upload form.
+      bodySizeLimit: "11mb",
+    },
+  },
 };
 
 export default nextConfig;
