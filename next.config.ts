@@ -3,9 +3,14 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
-    // Add remote photo hosts here once real congregation/pastor photos are hosted,
-    // e.g. { remotePatterns: [{ protocol: "https", hostname: "images.example.com" }] }
-    remotePatterns: [],
+    remotePatterns: [
+      // Supabase Storage public bucket URLs (pastor photo, gallery uploads).
+      {
+        protocol: "https",
+        hostname: "*.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
+    ],
   },
 };
 

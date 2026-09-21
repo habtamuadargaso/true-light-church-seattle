@@ -84,7 +84,7 @@ export default function Navbar() {
   return (
     <nav
       aria-label="Main navigation"
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+      className={`transition-all duration-500 ${
         scrolled || mobileOpen
           ? "border-b border-gold/15 bg-navy/85 shadow-[0_12px_40px_rgba(0,0,0,0.18)] backdrop-blur-2xl"
           : "border-b border-transparent bg-gradient-to-b from-navy/65 to-transparent"

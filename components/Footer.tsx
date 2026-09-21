@@ -2,9 +2,29 @@
 
 import { siteConfig } from "@/lib/site-config";
 import { useLanguage } from "@/lib/language";
-import { FacebookIcon, InstagramIcon, YouTubeIcon } from "@/components/ui/SocialIcons";
+import { FacebookIcon, TikTokIcon, YouTubeIcon } from "@/components/ui/SocialIcons";
 
-export default function Footer() {
+interface FooterSocial {
+  facebook: string | null;
+  tiktok: string | null;
+  youtube: string | null;
+}
+
+interface FooterContact {
+  email: string | null;
+  phone: string | null;
+}
+
+const EMPTY_SOCIAL: FooterSocial = { facebook: null, tiktok: null, youtube: null };
+const EMPTY_CONTACT: FooterContact = { email: null, phone: null };
+
+export default function Footer({
+  social = EMPTY_SOCIAL,
+  contact = EMPTY_CONTACT,
+}: {
+  social?: FooterSocial;
+  contact?: FooterContact;
+}) {
   const currentYear = new Date().getFullYear();
   const { t } = useLanguage();
 
@@ -29,7 +49,7 @@ export default function Footer() {
     t("ministries.outreach.title"),
   ];
 
-  const hasSocial = Object.values(siteConfig.social).some((url) => url && url !== "#");
+  const hasSocial = Boolean(social.facebook || social.tiktok || social.youtube);
 
   return (
     <footer className="border-t border-navy/10 bg-navy text-cream">
@@ -53,9 +73,9 @@ export default function Footer() {
               </h4>
               {hasSocial ? (
                 <div className="flex items-center gap-3">
-                  {siteConfig.social.facebook && siteConfig.social.facebook !== "#" && (
+                  {social.facebook && (
                     <a
-                      href={siteConfig.social.facebook}
+                      href={social.facebook}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Facebook"
@@ -64,20 +84,20 @@ export default function Footer() {
                       <FacebookIcon />
                     </a>
                   )}
-                  {siteConfig.social.instagram && siteConfig.social.instagram !== "#" && (
+                  {social.tiktok && (
                     <a
-                      href={siteConfig.social.instagram}
+                      href={social.tiktok}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label="Instagram"
+                      aria-label="TikTok"
                       className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/15 text-cream/70 transition-colors hover:border-gold/50 hover:text-gold"
                     >
-                      <InstagramIcon />
+                      <TikTokIcon />
                     </a>
                   )}
-                  {siteConfig.social.youtube && siteConfig.social.youtube !== "#" && (
+                  {social.youtube && (
                     <a
-                      href={siteConfig.social.youtube}
+                      href={social.youtube}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="YouTube"
@@ -93,7 +113,7 @@ export default function Footer() {
                     <FacebookIcon />
                   </span>
                   <span className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/10 text-cream/25">
-                    <InstagramIcon />
+                    <TikTokIcon />
                   </span>
                   <span className="flex h-9 w-9 items-center justify-center rounded-full border border-cream/10 text-cream/25">
                     <YouTubeIcon />
@@ -139,6 +159,20 @@ export default function Footer() {
                 <div>{siteConfig.address.street}</div>
                 <div>{siteConfig.address.city}, {siteConfig.address.state} {siteConfig.address.zip}</div>
               </div>
+              {(contact.email || contact.phone) && (
+                <div className="space-y-1 pt-2">
+                  {contact.email && (
+                    <a href={`mailto:${contact.email}`} className="block hover:text-gold">
+                      {contact.email}
+                    </a>
+                  )}
+                  {contact.phone && (
+                    <a href={`tel:${contact.phone}`} className="block hover:text-gold">
+                      {contact.phone}
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -1,12 +1,12 @@
 "use client";
 
-import { events } from "@/lib/data";
+import type { ChurchEvent } from "@/lib/data";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import { useLanguage } from "@/lib/language";
 
-export default function Events() {
+export default function Events({ events }: { events: ChurchEvent[] }) {
   const { t } = useLanguage();
 
   return (
@@ -62,10 +62,20 @@ export default function Events() {
                         <p className="text-[16px] text-[#4b5566]">{event.description}</p>
                       )}
                     </div>
-                    <div className="border-t border-navy/10 pt-4">
+                    <div className="flex items-center justify-between gap-3 border-t border-navy/10 pt-4">
                       <p className="text-sm text-[#5b6472]">
                         <span className="font-semibold">{t("events.location")}:</span> {event.location}
                       </p>
+                      {event.registrationUrl && (
+                        <a
+                          href={event.registrationUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="shrink-0 text-sm font-semibold text-gold-deep underline underline-offset-2"
+                        >
+                          {t("events.register")}
+                        </a>
+                      )}
                     </div>
                   </div>
                 </Reveal>

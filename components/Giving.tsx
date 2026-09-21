@@ -1,19 +1,18 @@
 "use client";
 
-import { siteConfig } from "@/lib/site-config";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import { useLanguage } from "@/lib/language";
 
-export default function Giving() {
+export default function Giving({ givingUrl }: { givingUrl: string | null }) {
   const { t } = useLanguage();
   const methods = [
     { title: t("giving.onlineTitle"), description: t("giving.onlineDesc"), icon: "💳" },
     { title: t("giving.personTitle"), description: t("giving.personDesc"), icon: "🙏" },
     { title: t("giving.mailTitle"), description: t("giving.mailDesc"), icon: "✉️" },
   ];
-  const hasGivingUrl = Boolean(siteConfig.givingUrl && siteConfig.givingUrl !== "#");
+  const hasGivingUrl = Boolean(givingUrl);
 
   return (
     <section id="giving" className="mx-auto max-w-[1200px] px-[5%] py-32">
@@ -45,7 +44,7 @@ export default function Giving() {
         <p className="mb-6 text-lg text-[#4b5566]">
           {t("giving.impact")}
         </p>
-        <Button href={siteConfig.givingUrl || "#"}>
+        <Button href={givingUrl || "#"}>
           {hasGivingUrl ? t("giving.button") : t("giving.comingSoon")}
         </Button>
       </Reveal>

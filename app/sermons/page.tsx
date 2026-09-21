@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { sermons } from "@/lib/data";
 import { siteConfig } from "@/lib/site-config";
-import Navbar from "@/components/Navbar";
+import { getSermons, getSiteSettings } from "@/lib/cms/queries";
+import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import PlayGlyph from "@/components/ui/PlayGlyph";
 
@@ -11,10 +11,13 @@ export const metadata: Metadata = {
   description: `Watch and read recent messages from ${siteConfig.name}.`,
 };
 
-export default function SermonsPage() {
+export default async function SermonsPage() {
+  const [sermons, settings] = await Promise.all([getSermons(), getSiteSettings()]);
+  const contact = { email: settings.church_email, phone: settings.church_phone };
+
   return (
     <div className="w-full overflow-x-hidden bg-cream text-[#1b2430]">
-      <Navbar />
+      <SiteHeader />
 
       <main id="main-content">
       <section className="mx-auto max-w-[1160px] px-[5%] py-24">
@@ -75,7 +78,10 @@ export default function SermonsPage() {
       </section>
       </main>
 
-      <Footer />
+      <Footer
+        social={{ facebook: settings.facebook_url, tiktok: settings.tiktok_url, youtube: settings.youtube_channel_url }}
+        contact={contact}
+      />
     </div>
   );
 }

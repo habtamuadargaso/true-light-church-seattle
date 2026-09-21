@@ -6,7 +6,12 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import { useLanguage } from "@/lib/language";
 
-export default function Contact() {
+interface ContactInfo {
+  email: string | null;
+  phone: string | null;
+}
+
+export default function Contact({ contact }: { contact?: ContactInfo }) {
   const { t } = useLanguage();
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -69,6 +74,22 @@ export default function Contact() {
                 {t("visit.bible")}: 6:00 PM
               </p>
             </div>
+            {contact?.email && (
+              <div>
+                <div className="mb-1 font-semibold text-navy">{t("contact.emailLabel")}</div>
+                <a href={`mailto:${contact.email}`} className="text-[16px] text-[#4b5566] hover:text-gold-deep">
+                  {contact.email}
+                </a>
+              </div>
+            )}
+            {contact?.phone && (
+              <div>
+                <div className="mb-1 font-semibold text-navy">{t("contact.phoneLabel")}</div>
+                <a href={`tel:${contact.phone}`} className="text-[16px] text-[#4b5566] hover:text-gold-deep">
+                  {contact.phone}
+                </a>
+              </div>
+            )}
             <div>
               <div className="mb-1 font-semibold text-navy">{t("contact.social")}</div>
               <p className="text-[16px] text-[#4b5566]">{t("contact.socialComingSoon")}</p>

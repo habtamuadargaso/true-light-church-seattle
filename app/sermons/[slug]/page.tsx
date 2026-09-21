@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { sermons } from "@/lib/data";
 import { siteConfig } from "@/lib/site-config";
-import Navbar from "@/components/Navbar";
+import { getSermonBySlug, getSermons, getSiteSettings } from "@/lib/cms/queries";
+import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import PlayGlyph from "@/components/ui/PlayGlyph";
 import YouTubeEmbed from "@/components/ui/YouTubeEmbed";
@@ -12,7 +12,8 @@ interface SermonPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const sermons = await getSermons();
   return sermons.map((sermon) => ({ slug: sermon.slug }));
 }
 
@@ -20,7 +21,7 @@ export async function generateMetadata({
   params,
 }: SermonPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const sermon = sermons.find((s) => s.slug === slug);
+  const sermon = await getSermonBySlug(slug);
   if (!sermon) return { title: "Sermon not found" };
 
   return {
@@ -35,13 +36,13 @@ export async function generateMetadata({
 
 export default async function SermonPage({ params }: SermonPageProps) {
   const { slug } = await params;
-  const sermon = sermons.find((s) => s.slug === slug);
+  const [sermon, settings] = await Promise.all([getSermonBySlug(slug), getSiteSettings()]);
 
   if (!sermon) notFound();
 
   return (
     <div className="w-full overflow-x-hidden bg-cream text-[#1b2430]">
-      <Navbar />
+      <SiteHeader />
 
       <main id="main-content">
       <article className="mx-auto max-w-[820px] px-[5%] py-24">
@@ -89,7 +90,10 @@ export default async function SermonPage({ params }: SermonPageProps) {
       </article>
       </main>
 
-      <Footer />
+      <Footer
+        social={{ facebook: settings.facebook_url, tiktok: settings.tiktok_url, youtube: settings.youtube_channel_url }}
+        contact={{ email: settings.church_email, phone: settings.church_phone }}
+      />
     </div>
   );
 }

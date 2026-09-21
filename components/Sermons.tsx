@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { sermons } from "@/lib/data";
+import type { Sermon } from "@/lib/data";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import YouTubeEmbed from "@/components/ui/YouTubeEmbed";
 import { useLanguage } from "@/lib/language";
 
-export default function Sermons() {
+export default function Sermons({ sermons }: { sermons: Sermon[] }) {
   const { t } = useLanguage();
   const [featured, ...rest] = sermons;
 

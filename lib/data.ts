@@ -18,6 +18,7 @@ export interface ChurchEvent {
   time: string;
   location: string;
   description?: string;
+  registrationUrl?: string;
 }
 
 // No real recorded messages have been published yet. The homepage Sermons

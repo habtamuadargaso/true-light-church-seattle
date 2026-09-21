@@ -1,12 +1,12 @@
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
+import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import Button from "@/components/ui/Button";
 
 export default function NotFound() {
   return (
     <div className="w-full overflow-x-hidden bg-cream text-[#1b2430]">
-      <Navbar />
+      <SiteHeader />
       <main id="main-content">
       <section className="mx-auto flex max-w-[600px] flex-col items-center gap-5 px-[5%] py-32 text-center">
         <span className="font-serif text-6xl font-bold text-navy">404</span>

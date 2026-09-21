@@ -5,8 +5,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import { useLanguage } from "@/lib/language";
+import type { GalleryViewItem } from "@/lib/cms/types";
 
-const galleryImages = [
+// Curated real church photos, used only when no admin-managed gallery
+// photos have been published yet (see lib/cms/queries.ts getGalleryItems).
+const staticGalleryImages = [
   { id: 1, src: "/worship-1.jpg", altKey: "gallery.alt.worship1", categoryKey: "gallery.worship" },
   { id: 2, src: "/worship-2.jpg", altKey: "gallery.alt.worship2", categoryKey: "gallery.worship" },
   { id: 3, src: "/congregation-1.jpg", altKey: "gallery.alt.congregation1", categoryKey: "gallery.community" },
@@ -21,7 +24,7 @@ const galleryImages = [
   { id: 8, src: "/womens-ministry.jpg", altKey: "gallery.alt.churchFamily", categoryKey: "gallery.community" },
 ];
 
-const categories = [
+const staticCategories = [
   "gallery.all",
   "gallery.worship",
   "gallery.community",
@@ -29,16 +32,46 @@ const categories = [
   "gallery.ministry",
 ];
 
-export default function Gallery() {
+export default function Gallery({ items }: { items: GalleryViewItem[] | null }) {
   const { t } = useLanguage();
-  const [selectedCategory, setSelectedCategory] = useState<string>("gallery.all");
+  const usingCms = Boolean(items && items.length > 0);
+
+  // Normalize both sources into the same shape. CMS-managed categories are
+  // plain admin-entered text (not translated, same as sermon/event copy);
+  // the static fallback keeps using translation keys as the filter value so
+  // the selected filter survives a language switch.
+  const allImages = usingCms
+    ? items!.map((item) => ({
+        id: item.id,
+        src: item.src,
+        alt: item.alt,
+        category: item.category || "Uncategorized",
+        categoryLabel: item.category || "Uncategorized",
+      }))
+    : staticGalleryImages.map((img) => ({
+        id: String(img.id),
+        src: img.src,
+        alt: t(img.altKey),
+        category: img.categoryKey,
+        categoryLabel: t(img.categoryKey),
+      }));
+
+  const categoryOptions: { value: string; label: string }[] = usingCms
+    ? [
+        { value: "all", label: "All" },
+        ...Array.from(new Set(items!.map((i) => i.category || "Uncategorized"))).map((c) => ({ value: c, label: c })),
+      ]
+    : staticCategories.map((key) => ({ value: key, label: t(key) }));
+
+  const allValue = categoryOptions[0].value;
+  const [selectedCategory, setSelectedCategory] = useState<string>(allValue);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
-  const filtered = selectedCategory === "gallery.all"
-    ? galleryImages
-    : galleryImages.filter((img) => img.categoryKey === selectedCategory);
+  const filtered = selectedCategory === allValue
+    ? allImages
+    : allImages.filter((img) => img.category === selectedCategory);
 
   const openLightbox = (index: number, trigger: HTMLElement) => {
     triggerRef.current = trigger;
@@ -79,6 +112,8 @@ export default function Gallery() {
 
   const active = lightboxIndex !== null ? filtered[lightboxIndex] : null;
 
+  if (allImages.length === 0) return null;
+
   return (
     <section id="gallery" className="mx-auto max-w-[1200px] px-[5%] py-32">
       <div className="mb-16 flex justify-center">
@@ -90,21 +125,21 @@ export default function Gallery() {
       </div>
 
       <Reveal className="mb-12 flex flex-wrap justify-center gap-3">
-        {categories.map((cat) => (
+        {categoryOptions.map((opt) => (
           <button
-            key={cat}
+            key={opt.value}
             type="button"
             onClick={() => {
-              setSelectedCategory(cat);
+              setSelectedCategory(opt.value);
               setLightboxIndex(null);
             }}
             className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300 ${
-              selectedCategory === cat
+              selectedCategory === opt.value
                 ? "bg-navy text-cream"
                 : "border border-navy/20 text-navy hover:border-navy/50"
             }`}
           >
-            {t(cat)}
+            {opt.label}
           </button>
         ))}
       </Reveal>
@@ -115,12 +150,12 @@ export default function Gallery() {
             <button
               type="button"
               onClick={(e) => openLightbox(i, e.currentTarget)}
-              aria-label={t(img.altKey)}
+              aria-label={img.alt}
               className="group relative h-[280px] w-full overflow-hidden rounded-2xl bg-navy/5 shadow-md transition-shadow duration-300 hover:shadow-lg"
             >
               <Image
                 src={img.src}
-                alt={t(img.altKey)}
+                alt={img.alt}
                 fill
                 priority={i < 2}
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -128,8 +163,8 @@ export default function Gallery() {
               />
               <div className="absolute inset-0 flex items-end bg-gradient-to-t from-navy/60 to-transparent p-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 <div className="text-left">
-                  <p className="text-sm font-semibold text-gold">{t(img.categoryKey)}</p>
-                  <p className="font-serif text-lg text-cream">{t(img.altKey)}</p>
+                  <p className="text-sm font-semibold text-gold">{img.categoryLabel}</p>
+                  <p className="font-serif text-lg text-cream">{img.alt}</p>
                 </div>
               </div>
             </button>
@@ -141,7 +176,7 @@ export default function Gallery() {
         <div
           role="dialog"
           aria-modal="true"
-          aria-label={t(active.altKey)}
+          aria-label={active.alt}
           className="fixed inset-0 z-[100] flex items-center justify-center bg-navy/95 p-4 backdrop-blur-sm sm:p-8"
           onClick={(e) => {
             if (e.target === e.currentTarget) closeLightbox();
@@ -188,7 +223,7 @@ export default function Gallery() {
             <div className="relative h-[70vh] w-full">
               <Image
                 src={active.src}
-                alt={t(active.altKey)}
+                alt={active.alt}
                 fill
                 className="object-contain"
                 sizes="100vw"
@@ -196,8 +231,8 @@ export default function Gallery() {
               />
             </div>
             <div className="text-center">
-              <p className="text-sm font-semibold text-gold">{t(active.categoryKey)}</p>
-              <p className="font-serif text-lg text-cream">{t(active.altKey)}</p>
+              <p className="text-sm font-semibold text-gold">{active.categoryLabel}</p>
+              <p className="font-serif text-lg text-cream">{active.alt}</p>
             </div>
           </div>
         </div>

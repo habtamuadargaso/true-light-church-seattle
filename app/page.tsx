@@ -1,4 +1,4 @@
-import Navbar from "@/components/Navbar";
+import SiteHeader from "@/components/SiteHeader";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import ServiceTimes from "@/components/ServiceTimes";
@@ -12,26 +12,42 @@ import Giving from "@/components/Giving";
 import Visit from "@/components/Visit";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import { getEvents, getGalleryItems, getPastorImageUrl, getSermons, getSiteSettings } from "@/lib/cms/queries";
 
-export default function Home() {
+export default async function Home() {
+  const [sermons, events, gallery, settings] = await Promise.all([
+    getSermons(),
+    getEvents(),
+    getGalleryItems(),
+    getSiteSettings(),
+  ]);
+  const pastorImageUrl = getPastorImageUrl(settings);
+
   return (
     <div className="w-full overflow-x-hidden bg-cream text-[#1b2430]">
-      <Navbar />
+      <SiteHeader />
       <main id="main-content">
         <Hero />
         <About />
         <ServiceTimes />
         <Ministries />
-        <Pastor />
-        <Sermons />
-        <Gallery />
-        <Events />
+        <Pastor settings={settings} imageUrl={pastorImageUrl} />
+        <Sermons sermons={sermons} />
+        <Gallery items={gallery} />
+        <Events events={events} />
         <Mission />
-        <Giving />
+        <Giving givingUrl={settings.giving_url} />
         <Visit />
-        <Contact />
+        <Contact contact={{ email: settings.church_email, phone: settings.church_phone }} />
       </main>
-      <Footer />
+      <Footer
+        social={{
+          facebook: settings.facebook_url,
+          tiktok: settings.tiktok_url,
+          youtube: settings.youtube_channel_url,
+        }}
+        contact={{ email: settings.church_email, phone: settings.church_phone }}
+      />
     </div>
   );
 }
