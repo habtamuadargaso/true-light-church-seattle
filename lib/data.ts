@@ -11,6 +11,12 @@ export interface Sermon {
   scripture?: string;
 }
 
+// The `series` value that marks a sermon as a Sunday Worship Service for
+// the homepage's dedicated section (lib/cms/queries.ts#getSundayWorshipService).
+// Reuses the existing free-text `series` field already on the sermons
+// table/form instead of adding a new category column.
+export const SUNDAY_WORSHIP_SERVICE_SERIES = "Sunday Worship Service";
+
 export interface ChurchEvent {
   month: string;
   day: string;

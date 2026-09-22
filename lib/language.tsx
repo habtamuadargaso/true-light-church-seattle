@@ -95,6 +95,12 @@ const translations: Record<Language, TranslationMap> = {
     "sermons.emptyTitle": "New Messages Coming Soon",
     "sermons.emptyBody": "We're building our online sermon library. Join us in person for worship, or check back soon for recordings.",
 
+    "sundayService.eyebrow": "Watch Online",
+    "sundayService.title": "Sunday Worship Service",
+    "sundayService.watchButton": "Watch Service",
+    "sundayService.emptyTitle": "Sunday Worship Service Coming Soon",
+    "sundayService.emptyBody": "We haven't published a Sunday Worship Service recording yet. Check back soon, or join us in person this Sunday.",
+
     "gallery.eyebrow": "Photo Gallery",
     "gallery.title": "Our Church Family",
     "gallery.description": "Celebrating moments of worship, fellowship, and ministry.",
@@ -275,6 +281,12 @@ const translations: Record<Language, TranslationMap> = {
     "sermons.watchAll": "ሁሉንም ስብከቶች ይመልከቱ",
     "sermons.emptyTitle": "አዳዲስ መልእክቶች በቅርቡ ይመጣሉ",
     "sermons.emptyBody": "የመስመር ላይ የስብከት ማዕከላችንን በመገንባት ላይ ነን። በአካል ለአምልኮ ይቀላቀሉን፣ ወይም ለቀረጻዎች በቅርቡ ይመለሱ።",
+
+    "sundayService.eyebrow": "በመስመር ላይ ይመልከቱ",
+    "sundayService.title": "የእሁድ የአምልኮ አገልግሎት",
+    "sundayService.watchButton": "አገልግሎቱን ይመልከቱ",
+    "sundayService.emptyTitle": "የእሁድ የአምልኮ አገልግሎት በቅርቡ ይመጣል",
+    "sundayService.emptyBody": "እስካሁን የእሁድ የአምልኮ አገልግሎት ቀረጻ አልታተመም። እባክዎ በቅርቡ ይመለሱ ወይም በአካል ይቀላቀሉን።",
 
     "gallery.eyebrow": "ፎቶ ማዕከል",
     "gallery.title": "የቤተ ክርስቲያናችን ቤተሰብ",

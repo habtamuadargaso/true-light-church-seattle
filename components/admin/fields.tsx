@@ -30,9 +30,10 @@ interface FieldProps {
   placeholder?: string;
   hint?: string;
   type?: string;
+  list?: string;
 }
 
-export function TextField({ name, label, defaultValue, required, placeholder, hint, type = "text" }: FieldProps) {
+export function TextField({ name, label, defaultValue, required, placeholder, hint, type = "text", list }: FieldProps) {
   return (
     <FieldWrapper label={label} htmlFor={name} required={required} hint={hint}>
       <input
@@ -42,6 +43,7 @@ export function TextField({ name, label, defaultValue, required, placeholder, hi
         required={required}
         placeholder={placeholder}
         defaultValue={defaultValue ?? ""}
+        list={list}
         className={inputClasses}
       />
     </FieldWrapper>

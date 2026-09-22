@@ -1,7 +1,13 @@
 import "server-only";
 
 import { createSupabasePublicClient } from "@/lib/supabase/public";
-import { sermons as fallbackSermons, events as fallbackEvents, type Sermon, type ChurchEvent } from "@/lib/data";
+import {
+  sermons as fallbackSermons,
+  events as fallbackEvents,
+  SUNDAY_WORSHIP_SERVICE_SERIES,
+  type Sermon,
+  type ChurchEvent,
+} from "@/lib/data";
 import type {
   AnnouncementRow,
   AnnouncementView,
@@ -57,6 +63,30 @@ export async function getSermons(): Promise<Sermon[]> {
 
   if (error || !data) return fallbackSermons;
   return data.map(mapSermonRow);
+}
+
+/**
+ * The newest published sermon tagged as a Sunday Worship Service, for the
+ * homepage's dedicated section. Matches the existing free-text `series`
+ * field case-insensitively against SUNDAY_WORSHIP_SERVICE_SERIES — no new
+ * column/table was needed. Returns null (never a fake/sample entry) if
+ * Supabase isn't configured, the query fails, or none has been published.
+ */
+export async function getSundayWorshipService(): Promise<Sermon | null> {
+  const supabase = createSupabasePublicClient();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase
+    .from("sermons")
+    .select("*")
+    .eq("published", true)
+    .ilike("series", SUNDAY_WORSHIP_SERVICE_SERIES)
+    .order("sermon_date", { ascending: false, nullsFirst: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !data) return null;
+  return mapSermonRow(data);
 }
 
 /** A single published sermon by slug, for the /sermons/[slug] detail page. */

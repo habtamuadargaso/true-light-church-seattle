@@ -1,4 +1,5 @@
 import { CheckboxField, SubmitButton, TextAreaField, TextField } from "@/components/admin/fields";
+import { SUNDAY_WORSHIP_SERVICE_SERIES } from "@/lib/data";
 import type { SermonRow } from "@/lib/cms/types";
 
 export function SermonForm({
@@ -35,9 +36,19 @@ export function SermonForm({
       </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <TextField name="series" label="Series" defaultValue={sermon?.series} placeholder="Sunday Worship Service" />
+        <TextField
+          name="series"
+          label="Series"
+          defaultValue={sermon?.series}
+          placeholder="Sunday Worship Service"
+          list="series-options"
+          hint={`Pick “${SUNDAY_WORSHIP_SERVICE_SERIES}” to feature this on the homepage's Sunday Worship Service section.`}
+        />
         <TextField name="scripture" label="Scripture reference" defaultValue={sermon?.scripture} placeholder="John 12:46" />
       </div>
+      <datalist id="series-options">
+        <option value={SUNDAY_WORSHIP_SERVICE_SERIES} />
+      </datalist>
 
       <TextField
         name="language"
