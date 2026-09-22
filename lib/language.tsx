@@ -44,8 +44,14 @@ const translations: Record<Language, TranslationMap> = {
     "about.stat3": "Weekly services",
 
     "pastor.eyebrow": "Our Leadership",
-    "pastor.title": "A Shepherd for Our Church Family",
+    "pastor.title": "A Servant of God, A Shepherd for His People",
     "pastor.intro": "{pastor} leads our church family with a steady commitment to prayer, biblical teaching, and radical welcome — helping every person who walks through our doors know Christ, grow in faith, and shine His light into our city and beyond.",
+    "pastor.scripture": "\"I have fought the good fight,\nI have finished the race,\nI have kept the faith.\"",
+    "pastor.reference": "— 2 Timothy 4:7",
+    "pastor.value1": "Preaching the Word",
+    "pastor.value2": "Prayer & Care",
+    "pastor.value3": "Serving the Community",
+    "pastor.value4": "Building Faith",
 
     "services.eyebrow": "Join Us",
     "services.title": "Worship Service Times",
@@ -219,8 +225,14 @@ const translations: Record<Language, TranslationMap> = {
     "about.stat3": "ሳምንታዊ አገልግሎቶች",
 
     "pastor.eyebrow": "መሪነታችን",
-    "pastor.title": "የቤተ ክርስቲያናችን እረኛ",
+    "pastor.title": "የእግዚአብሔር አገልጋይ፣ ለሕዝቡ እረኛ",
     "pastor.intro": "{pastor} ቤተ ክርስቲያናችንን በጸሎት፣ በእግዚአብሔር ቃል ትምህርት እና ሁሉንም እንደ ቤተሰብ በመቀበል ይመራል። በእሳቸው መሪነት፣ ቤተ ክርስቲያናችን ሰዎች ክርስቶስን እንዲያውቁ፣ በእምነት እንዲያድጉ እና ብርሃኑን በከተማችን እና ከዚያ በላይ እንዲያበሩ ይረዳል።",
+    "pastor.scripture": "\"መልካሙን ገድል ተጋድያለሁ፣\nሩጫውን ጨርሻለሁ፣\nሃይማኖትን ጠብቄአለሁ።\"",
+    "pastor.reference": "— 2ኛ ጢሞቴዎስ 4:7",
+    "pastor.value1": "ቃሉን መስበክ",
+    "pastor.value2": "ጸሎት እና እንክብካቤ",
+    "pastor.value3": "ማህበረሰብን ማገልገል",
+    "pastor.value4": "እምነትን መገንባት",
 
     "services.eyebrow": "ከእኛ ጋር ይቀላቀሉ",
     "services.title": "የአምልኮ አገልግሎት ሰዓቶች",
