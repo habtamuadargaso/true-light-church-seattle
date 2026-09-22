@@ -1,17 +1,20 @@
 /**
- * Extracts the video ID from common YouTube URL formats
- * (watch?v=, youtu.be/, embed/, shorts/) and returns a privacy-enhanced
- * embed URL, or null if the input isn't a recognizable YouTube URL.
+ * Extracts the video ID from common YouTube URL formats: watch?v=,
+ * youtu.be/, embed/, and shorts/. Returns null for anything else, including
+ * malformed URLs — callers should treat that as "no valid video" and fall
+ * back to a placeholder rather than rendering a broken player/thumbnail.
  */
-export function getYouTubeEmbedUrl(url: string | null | undefined): string | null {
+export function getYouTubeVideoId(url: string | null | undefined): string | null {
   if (!url) return null;
 
   let id: string | null = null;
   try {
     const parsed = new URL(url);
-    if (parsed.hostname === "youtu.be") {
+    const hostname = parsed.hostname.toLowerCase();
+
+    if (hostname === "youtu.be") {
       id = parsed.pathname.slice(1);
-    } else if (parsed.hostname.includes("youtube.com")) {
+    } else if (hostname === "youtube.com" || hostname.endsWith(".youtube.com")) {
       if (parsed.pathname === "/watch") {
         id = parsed.searchParams.get("v");
       } else if (parsed.pathname.startsWith("/embed/")) {
@@ -25,6 +28,22 @@ export function getYouTubeEmbedUrl(url: string | null | undefined): string | nul
   }
 
   if (!id) return null;
-  id = id.split("?")[0].split("&")[0];
-  return `https://www.youtube-nocookie.com/embed/${id}`;
+  id = id.split("?")[0].split("&")[0].split("/")[0].trim();
+  return id || null;
+}
+
+/** Privacy-enhanced embed URL for a stored YouTube URL, or null if invalid. */
+export function getYouTubeEmbedUrl(url: string | null | undefined): string | null {
+  const id = getYouTubeVideoId(url);
+  return id ? `https://www.youtube-nocookie.com/embed/${id}` : null;
+}
+
+/**
+ * Public YouTube-hosted thumbnail for a stored YouTube URL, or null if
+ * invalid. Uses hqdefault, which YouTube generates for every video
+ * (maxresdefault frequently 404s for Shorts/older uploads).
+ */
+export function getYouTubeThumbnailUrl(url: string | null | undefined): string | null {
+  const id = getYouTubeVideoId(url);
+  return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : null;
 }

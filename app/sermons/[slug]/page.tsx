@@ -7,6 +7,7 @@ import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import PlayGlyph from "@/components/ui/PlayGlyph";
 import YouTubeEmbed from "@/components/ui/YouTubeEmbed";
+import { getYouTubeEmbedUrl } from "@/lib/youtube";
 
 interface SermonPageProps {
   params: Promise<{ slug: string }>;
@@ -40,6 +41,8 @@ export default async function SermonPage({ params }: SermonPageProps) {
 
   if (!sermon) notFound();
 
+  const embedUrl = getYouTubeEmbedUrl(sermon.youtubeUrl);
+
   return (
     <div className="w-full overflow-x-hidden bg-cream text-[#1b2430]">
       <SiteHeader />
@@ -53,7 +56,7 @@ export default async function SermonPage({ params }: SermonPageProps) {
           ← All sermons
         </Link>
 
-        {sermon.youtubeUrl ? (
+        {embedUrl && sermon.youtubeUrl ? (
           <YouTubeEmbed url={sermon.youtubeUrl} title={sermon.title} className="mb-8 shadow-[0_20px_50px_rgba(11,31,58,0.15)]" />
         ) : (
           <div className="relative mb-8 flex aspect-video items-center justify-center overflow-hidden rounded-2xl bg-[repeating-linear-gradient(135deg,#0b1f3a,#0b1f3a_12px,#122a4d_12px,#122a4d_24px)] shadow-[0_20px_50px_rgba(11,31,58,0.15)]">

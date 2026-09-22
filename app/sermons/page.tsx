@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 import { getSermons, getSiteSettings } from "@/lib/cms/queries";
+import { getYouTubeThumbnailUrl } from "@/lib/youtube";
 import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import PlayGlyph from "@/components/ui/PlayGlyph";
@@ -51,15 +52,31 @@ export default async function SermonsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
-            {sermons.map((sermon) => (
+            {sermons.map((sermon) => {
+              const thumbnailUrl = getYouTubeThumbnailUrl(sermon.youtubeUrl);
+
+              return (
               <Link
                 key={sermon.slug}
                 href={`/sermons/${sermon.slug}`}
                 className="overflow-hidden rounded-2xl bg-white shadow-[0_8px_24px_rgba(11,31,58,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(11,31,58,0.12)]"
               >
-                <div className="flex aspect-video items-center justify-center bg-[repeating-linear-gradient(135deg,#e5dac2,#e5dac2_10px,#eee6d5_10px,#eee6d5_20px)]">
-                  <PlayGlyph size={44} />
-                </div>
+                {thumbnailUrl ? (
+                  <div className="relative flex aspect-video items-center justify-center overflow-hidden bg-navy/20">
+                    <img
+                      src={thumbnailUrl}
+                      alt={sermon.title}
+                      loading="lazy"
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-navy/25" />
+                    <PlayGlyph size={44} />
+                  </div>
+                ) : (
+                  <div className="flex aspect-video items-center justify-center bg-[repeating-linear-gradient(135deg,#e5dac2,#e5dac2_10px,#eee6d5_10px,#eee6d5_20px)]">
+                    <PlayGlyph size={44} />
+                  </div>
+                )}
                 <div className="flex flex-col gap-1.5 p-5">
                   <span className="text-xs font-semibold uppercase tracking-wide text-gold-deep">
                     {sermon.series}
@@ -72,7 +89,8 @@ export default async function SermonsPage() {
                   </div>
                 </div>
               </Link>
-            ))}
+              );
+            })}
           </div>
         )}
       </section>

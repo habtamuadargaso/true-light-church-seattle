@@ -6,11 +6,14 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import YouTubeEmbed from "@/components/ui/YouTubeEmbed";
+import PlayGlyph from "@/components/ui/PlayGlyph";
 import { useLanguage } from "@/lib/language";
+import { getYouTubeEmbedUrl, getYouTubeThumbnailUrl } from "@/lib/youtube";
 
 export default function Sermons({ sermons }: { sermons: Sermon[] }) {
   const { t } = useLanguage();
   const [featured, ...rest] = sermons;
+  const featuredEmbedUrl = featured ? getYouTubeEmbedUrl(featured.youtubeUrl) : null;
 
   return (
     <section id="sermons" className="mx-auto max-w-[1200px] px-[5%] py-32">
@@ -41,7 +44,7 @@ export default function Sermons({ sermons }: { sermons: Sermon[] }) {
         <>
           <Reveal className="mb-20">
             <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
-              {featured.youtubeUrl ? (
+              {featuredEmbedUrl && featured.youtubeUrl ? (
                 <YouTubeEmbed url={featured.youtubeUrl} title={featured.title} />
               ) : (
                 <div className="relative aspect-video overflow-hidden rounded-2xl bg-gradient-to-br from-navy/30 to-navy/60 shadow-lg">
@@ -106,18 +109,35 @@ export default function Sermons({ sermons }: { sermons: Sermon[] }) {
                 {t("sermons.recent")}
               </h3>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                {rest.map((sermon, i) => (
+                {rest.map((sermon, i) => {
+                  const thumbnailUrl = getYouTubeThumbnailUrl(sermon.youtubeUrl);
+
+                  return (
                   <Reveal key={sermon.slug} delay={Math.min(i * 0.08, 0.2)}>
                     <Link href={`/sermons/${sermon.slug}`}>
                       <div className="group cursor-pointer overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-lg">
-                        <div className="relative flex aspect-video items-center justify-center overflow-hidden bg-gradient-to-br from-navy/20 to-navy/40">
-                          <div className="text-center">
-                            <svg className="mx-auto mb-2 h-12 w-12 text-gold/40" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                              <path d="M8 5v14l11-7z" />
-                            </svg>
-                            <p className="text-xs font-semibold text-navy/40">{t("sermons.videoPlaceholder")}</p>
+                        {thumbnailUrl ? (
+                          <div className="relative aspect-video overflow-hidden">
+                            <img
+                              src={thumbnailUrl}
+                              alt={sermon.title}
+                              loading="lazy"
+                              className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center bg-navy/25">
+                              <PlayGlyph size={40} />
+                            </div>
                           </div>
-                        </div>
+                        ) : (
+                          <div className="relative flex aspect-video items-center justify-center overflow-hidden bg-gradient-to-br from-navy/20 to-navy/40">
+                            <div className="text-center">
+                              <svg className="mx-auto mb-2 h-12 w-12 text-gold/40" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                              <p className="text-xs font-semibold text-navy/40">{t("sermons.videoPlaceholder")}</p>
+                            </div>
+                          </div>
+                        )}
                         <div className="p-6">
                           <h4 className="font-serif text-lg font-bold text-navy transition-colors group-hover:text-gold-deep">
                             {sermon.title}
@@ -134,7 +154,8 @@ export default function Sermons({ sermons }: { sermons: Sermon[] }) {
                       </div>
                     </Link>
                   </Reveal>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
