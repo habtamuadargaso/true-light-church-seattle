@@ -25,6 +25,8 @@ export interface ChurchEvent {
   location: string;
   description?: string;
   registrationUrl?: string;
+  // Public Storage URL for an uploaded flyer/photo, or null if none was set.
+  imageUrl?: string | null;
 }
 
 // No real recorded messages have been published yet. The homepage Sermons

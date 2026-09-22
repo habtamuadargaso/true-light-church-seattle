@@ -19,11 +19,13 @@ export default async function EditEventPage({ params }: PageProps) {
   const { data: event } = await supabase.from("events").select("*").eq("id", id).maybeSingle();
   if (!event) notFound();
 
+  const imageUrl = event.image_path ? supabase.storage.from("media").getPublicUrl(event.image_path).data.publicUrl : null;
+
   return (
     <div>
       <AdminPageHeader title="Edit Event" />
       <AdminCard>
-        <EventForm action={updateEventAction.bind(null, id)} event={event} />
+        <EventForm action={updateEventAction.bind(null, id)} event={event} imageUrl={imageUrl} />
       </AdminCard>
     </div>
   );

@@ -117,7 +117,7 @@ function formatEventTime(row: EventRow): string {
   return "";
 }
 
-function mapEventRow(row: EventRow): ChurchEvent {
+function mapEventRow(row: EventRow, imageUrl: string | null): ChurchEvent {
   const date = new Date(`${row.event_date}T00:00:00`);
   return {
     month: Number.isNaN(date.getTime()) ? "" : date.toLocaleDateString("en-US", { month: "short" }).toUpperCase(),
@@ -127,6 +127,7 @@ function mapEventRow(row: EventRow): ChurchEvent {
     location: row.location ?? "",
     description: row.description ?? undefined,
     registrationUrl: row.registration_url ?? undefined,
+    imageUrl,
   };
 }
 
@@ -148,7 +149,10 @@ export async function getEvents(): Promise<ChurchEvent[]> {
     .order("event_date", { ascending: true });
 
   if (error || !data) return fallbackEvents;
-  return data.map(mapEventRow);
+  return (data as EventRow[]).map((row) => {
+    const imageUrl = row.image_path ? supabase.storage.from("media").getPublicUrl(row.image_path).data.publicUrl : null;
+    return mapEventRow(row, imageUrl);
+  });
 }
 
 /**

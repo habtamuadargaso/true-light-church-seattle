@@ -94,11 +94,12 @@ export function CheckboxField({
   );
 }
 
-export function SubmitButton({ children }: { children: React.ReactNode }) {
+export function SubmitButton({ children, disabled }: { children: React.ReactNode; disabled?: boolean }) {
   return (
     <button
       type="submit"
-      className="rounded-lg bg-navy px-5 py-2.5 text-sm font-semibold text-cream transition-opacity hover:opacity-90"
+      disabled={disabled}
+      className="rounded-lg bg-navy px-5 py-2.5 text-sm font-semibold text-cream transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
     >
       {children}
     </button>

@@ -29,6 +29,7 @@ export interface EventRow {
   end_time: string | null;
   location: string | null;
   registration_url: string | null;
+  image_path: string | null;
   published: boolean;
   created_at: string;
   updated_at: string;
