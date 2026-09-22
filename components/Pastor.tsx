@@ -31,6 +31,24 @@ function buildDisplayName(title: string | null, name: string | null, fallback: s
   return alreadyPrefixed ? trimmedName : `${trimmedTitle} ${trimmedName}`;
 }
 
+/**
+ * The name already appears in the large heading above the bio, so a leading
+ * "### Pastor Dereje Gadafa"-style heading inside the CMS biography text
+ * would otherwise render a second, smaller copy of it. Drops only that one
+ * leading block when it matches the displayed name — everything else the
+ * bio contains (other headings, bold text, paragraphs) is left untouched.
+ */
+function stripLeadingDuplicateHeading(bio: string, displayName: string): string {
+  const blocks = bio.split(/\n\s*\n/);
+  const headingMatch = blocks[0]?.trim().match(/^#{1,6}\s+(.*)$/);
+  if (!headingMatch) return bio;
+
+  const normalize = (value: string) => value.replace(/^pastor\s+/i, "").trim().toLowerCase();
+  if (normalize(headingMatch[1]) !== normalize(displayName)) return bio;
+
+  return blocks.slice(1).join("\n\n");
+}
+
 export default function Pastor({
   settings,
   imageUrl,
@@ -50,8 +68,9 @@ export default function Pastor({
     .slice(0, 2)
     .toUpperCase();
 
-  const bio = settings.pastor_bio || t("pastor.intro", { pastor: displayName });
-  const bioParagraphs = renderRichText(bio, "text-[17px] leading-[1.9] text-[#c9d3e2]");
+  const rawBio = settings.pastor_bio || t("pastor.intro", { pastor: displayName });
+  const bio = stripLeadingDuplicateHeading(rawBio, displayName);
+  const bioParagraphs = renderRichText(bio, "text-[17px] leading-[1.8] text-[#c9d3e2]");
 
   return (
     <section id="pastor" className="relative overflow-hidden bg-navy px-[5%] py-28">
@@ -81,7 +100,7 @@ export default function Pastor({
             )}
           </Reveal>
 
-          <Reveal delay={0.1} className="flex flex-col gap-6">
+          <Reveal delay={0.1} className="flex flex-col gap-7">
             <div className="flex flex-col gap-3">
               <span className="text-[12.5px] font-bold uppercase tracking-[0.22em] text-gold">
                 {t("pastor.eyebrow")}
@@ -92,13 +111,13 @@ export default function Pastor({
               <p className="font-serif text-xl font-semibold text-gold">{t("pastor.title")}</p>
             </div>
 
-            <div className="flex flex-col gap-5">{bioParagraphs}</div>
+            <div className="flex flex-col gap-6">{bioParagraphs}</div>
 
-            <div className="rounded-2xl border-l-4 border-gold bg-white/5 p-8 backdrop-blur-sm">
+            <div className="rounded-2xl border-l-4 border-gold bg-white/5 p-8 backdrop-blur-sm sm:p-10">
               <p className="whitespace-pre-line font-serif text-xl italic leading-[1.8] text-cream">
                 {t("pastor.scripture")}
               </p>
-              <p className="mt-3 text-sm text-cream/60">{t("pastor.reference")}</p>
+              <p className="mt-4 text-sm text-cream/60">{t("pastor.reference")}</p>
             </div>
           </Reveal>
         </div>
