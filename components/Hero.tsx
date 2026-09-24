@@ -10,7 +10,7 @@ import { siteConfig } from "@/lib/site-config";
 // image later (drop the new file in /public and point this at it); nothing
 // else in this component needs to change. Must not be modified/re-generated,
 // only swapped for a different existing photo.
-const HERO_BACKGROUND_IMAGE = "/building-sunset.png";
+const HERO_BACKGROUND_IMAGE = "/true-light-new-hero.png";
 
 export default function Hero() {
   const { t } = useLanguage();
@@ -25,7 +25,7 @@ export default function Hero() {
             alt="True Light International Evangelical Church"
             fill
             priority
-            className="object-cover"
+            className="object-cover object-[65%_60%]"
             sizes="100vw"
           />
         </div>
