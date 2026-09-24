@@ -67,7 +67,7 @@ export default async function AdminPastorPage() {
               name="pastor_name"
               label="Name"
               defaultValue={settings.pastor_name}
-              placeholder="Pastor Derge Gadafa"
+              placeholder="Pastor Dereje Gadafa"
               hint="Leave blank to keep using the verified name already on the site."
             />
             <TextField name="pastor_title" label="Title" defaultValue={settings.pastor_title} placeholder="Pastor" />

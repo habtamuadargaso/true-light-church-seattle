@@ -31,7 +31,7 @@ export function SermonForm({
       />
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <TextField name="speaker" label="Speaker" defaultValue={sermon?.speaker} placeholder="Pastor Derge Gadafa" />
+        <TextField name="speaker" label="Speaker" defaultValue={sermon?.speaker} placeholder="Pastor Dereje Gadafa" />
         <TextField name="sermon_date" label="Date" type="date" defaultValue={sermon?.sermon_date} />
       </div>
 

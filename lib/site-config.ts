@@ -41,9 +41,9 @@ export const siteConfig = {
   // TODO: replace with the real production domain before deploying
   url: "https://www.truelightseattle.org",
   description:
-    "True Light International Evangelical Church is a warm, welcoming church family in Shoreline/Seattle, WA, led by Pastor Derge Gadafa, devoted to worship, prayer, and the teaching of God's Word.",
+    "True Light International Evangelical Church is a Christ-centered church family in Shoreline, Washington, committed to worship, prayer, biblical teaching, discipleship, and sharing the Gospel of Jesus Christ.",
   city: "Shoreline, Washington",
-  pastor: "Pastor Derge Gadafa",
+  pastor: "Pastor Dereje Gadafa",
   address: {
     street: "15211 15th Ave NE",
     city: "Shoreline",

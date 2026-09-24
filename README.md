@@ -62,7 +62,7 @@ Everything below is clearly marked as a placeholder in the source
 (`lib/data.ts`, `lib/site-config.ts`, and inline in components) and is safe to
 search for:
 
-- **Pastor / leadership names** — set to "Pastor Derge Gadafa" in
+- **Pastor / leadership names** — set to "Pastor Dereje Gadafa" in
   `lib/site-config.ts` (`siteConfig.pastor`). Update if this changes.
 - **Service times** — real: Sunday Worship 1:30–3:00 PM, Bible Study
   Thursday 6:00 PM (`lib/data.ts` → `serviceTimes`). The Midweek Prayer time

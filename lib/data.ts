@@ -39,7 +39,7 @@ export interface ChurchEvent {
 //   {
 //     slug: "the-true-light",
 //     title: "The True Light",
-//     speaker: "Pastor Derge Gadafa",
+//     speaker: "Pastor Dereje Gadafa",
 //     date: "July 5, 2026",
 //     series: "Sunday Worship Service",
 //     description: "...",

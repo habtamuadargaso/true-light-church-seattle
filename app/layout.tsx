@@ -67,11 +67,6 @@ export default function RootLayout({
     name: siteConfig.name,
     url: siteConfig.url,
     image: `${siteConfig.url}/opengraph-image`,
-    founder: {
-      "@type": "Person",
-      name: "Derge Gadafa",
-      jobTitle: "Pastor",
-    },
     sameAs: [siteConfig.social.facebook, siteConfig.social.instagram, siteConfig.social.youtube].filter(
       (url) => url && url !== "#"
     ),
