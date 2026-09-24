@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 type Variant = "primary" | "outline-light" | "outline-dark";
 
 const base =
-  "inline-flex items-center justify-center rounded-full font-semibold transition-all duration-300 whitespace-nowrap";
+  "inline-flex items-center justify-center rounded-full font-semibold transition-all duration-300 whitespace-nowrap focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gold/40";
 
 const variants: Record<Variant, string> = {
   primary:
@@ -19,7 +19,7 @@ interface ButtonProps {
   href: string;
   children: ReactNode;
   variant?: Variant;
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg";
   className?: string;
   external?: boolean;
 }
@@ -32,7 +32,8 @@ export default function Button({
   className = "",
   external = false,
 }: ButtonProps) {
-  const sizeClasses = size === "sm" ? "px-5 py-2.5 text-sm" : "px-8 py-4 text-[15px]";
+  const sizeClasses =
+    size === "sm" ? "px-5 py-2.5 text-sm" : size === "lg" ? "px-10 py-5 text-base" : "px-8 py-4 text-[15px]";
   const isAnchor = external || href.startsWith("#") || href.startsWith("http");
 
   const classes = `${base} ${variants[variant]} ${sizeClasses} ${className}`;
