@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import type { Sermon } from "@/lib/data";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -9,6 +10,7 @@ import YouTubeEmbed from "@/components/ui/YouTubeEmbed";
 import PlayGlyph from "@/components/ui/PlayGlyph";
 import { useLanguage } from "@/lib/language";
 import { getYouTubeEmbedUrl, getYouTubeThumbnailUrl } from "@/lib/youtube";
+import { renderInlineRichText } from "@/lib/richText";
 
 export default function Sermons({ sermons }: { sermons: Sermon[] }) {
   const { t } = useLanguage();
@@ -89,7 +91,7 @@ export default function Sermons({ sermons }: { sermons: Sermon[] }) {
                   )}
                 </div>
                 <p className="text-[16px] leading-[1.6] text-[#4b5566]">
-                  {featured.description}
+                  {renderInlineRichText(featured.description)}
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <Button href={`/sermons/${featured.slug}`}>{t("sermons.watchFull")}</Button>
@@ -118,11 +120,12 @@ export default function Sermons({ sermons }: { sermons: Sermon[] }) {
                       <div className="group cursor-pointer overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-lg">
                         {thumbnailUrl ? (
                           <div className="relative aspect-video overflow-hidden">
-                            <img
+                            <Image
                               src={thumbnailUrl}
                               alt={sermon.title}
-                              loading="lazy"
-                              className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                              fill
+                              sizes="(max-width: 640px) 100vw, 50vw"
+                              className="object-cover transition-transform duration-300 group-hover:scale-105"
                             />
                             <div className="absolute inset-0 flex items-center justify-center bg-navy/25">
                               <PlayGlyph size={40} />
@@ -134,7 +137,7 @@ export default function Sermons({ sermons }: { sermons: Sermon[] }) {
                               <svg className="mx-auto mb-2 h-12 w-12 text-gold/40" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M8 5v14l11-7z" />
                               </svg>
-                              <p className="text-xs font-semibold text-navy/40">{t("sermons.videoPlaceholder")}</p>
+                              <p className="text-xs font-semibold text-navy/40">{t("sermons.videoSoon")}</p>
                             </div>
                           </div>
                         )}
@@ -148,7 +151,7 @@ export default function Sermons({ sermons }: { sermons: Sermon[] }) {
                             <span className="text-xs text-[#5b6472]">{sermon.date}</span>
                           </div>
                           <p className="mt-3 line-clamp-2 text-sm text-[#4b5566]">
-                            {sermon.description}
+                            {renderInlineRichText(sermon.description)}
                           </p>
                         </div>
                       </div>

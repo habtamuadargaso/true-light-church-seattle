@@ -29,8 +29,39 @@ export function galleryStoragePath(filename: string): string {
   return `gallery/${crypto.randomUUID()}.${extension}`;
 }
 
+// Filenames produced by phones, screenshot tools, and AI image generators
+// carry no real description ("ChatGPT Image Sep 12, 2025, 09_15_23 AM.png",
+// "IMG_4213.jpg", "Screenshot 2025-09-12.png") — cleaning up the punctuation
+// in one of these still leaves a caption visitors shouldn't see. Detected
+// here so both the upload-time default and already-published rows (see
+// getGalleryItems in lib/cms/queries.ts) can fall back to something
+// presentable instead.
+const NON_DESCRIPTIVE_FILENAME_PATTERNS = [
+  /^chatgpt image/i,
+  /^(img|dsc|dcim|pxl|mvimg)[_-]?\d/i,
+  /^screenshot/i,
+  /^screen shot/i,
+  /^(photo|image|picture)[_-]?\d/i,
+  /^signal[_-]/i,
+  /^untitled/i,
+  /^\d{4}[-_]\d{2}[-_]\d{2}/, // date-stamped, e.g. "2025-09-12 14.03.11"
+  /^\d{8,}$/, // pure numeric/timestamp filenames
+];
+
+/** True if `text` reads like a cleaned-up filename rather than a real description. */
+export function isNonDescriptiveCaption(text: string): boolean {
+  const trimmed = text.trim();
+  if (!trimmed) return true;
+  return NON_DESCRIPTIVE_FILENAME_PATTERNS.some((pattern) => pattern.test(trimmed));
+}
+
+/** A presentable caption to fall back to when the real alt text isn't descriptive. */
+export function fallbackGalleryCaption(category?: string | null): string {
+  return category ? `${category} photo` : "Gallery photo";
+}
+
 /** Safe, human-readable alt text derived from a filename, editable later from the Gallery admin page. */
-export function defaultAltTextFromFilename(filename: string): string {
+export function defaultAltTextFromFilename(filename: string, category?: string | null): string {
   const base = filename.replace(/\.[^./]+$/, "");
   const words = base
     .replace(/[_-]+/g, " ")
@@ -38,8 +69,9 @@ export function defaultAltTextFromFilename(filename: string): string {
     .trim()
     .replace(/\s+/g, " ")
     .slice(0, 200);
-  const cleaned = words || "Gallery photo";
-  return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+
+  if (!words || isNonDescriptiveCaption(base)) return fallbackGalleryCaption(category);
+  return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
 export function formatFileSize(bytes: number): string {

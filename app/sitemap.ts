@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/site-config";
-import { sermons } from "@/lib/data";
+import { getSermons } from "@/lib/cms/queries";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const routes = ["", "/sermons"].map((path) => ({
     url: `${siteConfig.url}${path}`,
     lastModified: new Date(),
@@ -10,6 +10,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === "" ? 1 : 0.8,
   }));
 
+  // Live, published sermons from the CMS — the static list in lib/data.ts
+  // is only a build-time fallback and is normally empty.
+  const sermons = await getSermons();
   const sermonRoutes = sermons.map((sermon) => ({
     url: `${siteConfig.url}/sermons/${sermon.slug}`,
     lastModified: new Date(),

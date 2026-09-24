@@ -48,7 +48,14 @@ export default async function Home() {
         <Mission />
         <Giving givingUrl={settings.giving_url} />
         <Visit />
-        <Contact contact={{ email: settings.church_email, phone: settings.church_phone }} />
+        <Contact
+          contact={{ email: settings.church_email, phone: settings.church_phone }}
+          social={{
+            facebook: settings.facebook_url,
+            tiktok: settings.tiktok_url,
+            youtube: settings.youtube_channel_url,
+          }}
+        />
       </main>
       <Footer
         social={{

@@ -5,14 +5,22 @@ import { siteConfig } from "@/lib/site-config";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import { useLanguage } from "@/lib/language";
+import { FacebookIcon, TikTokIcon, YouTubeIcon } from "@/components/ui/SocialIcons";
 
 interface ContactInfo {
   email: string | null;
   phone: string | null;
 }
 
-export default function Contact({ contact }: { contact?: ContactInfo }) {
+interface ContactSocial {
+  facebook: string | null;
+  tiktok: string | null;
+  youtube: string | null;
+}
+
+export default function Contact({ contact, social }: { contact?: ContactInfo; social?: ContactSocial }) {
   const { t } = useLanguage();
+  const hasSocial = Boolean(social?.facebook || social?.tiktok || social?.youtube);
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
@@ -92,7 +100,45 @@ export default function Contact({ contact }: { contact?: ContactInfo }) {
             )}
             <div>
               <div className="mb-1 font-semibold text-navy">{t("contact.social")}</div>
-              <p className="text-[16px] text-[#4b5566]">{t("contact.socialComingSoon")}</p>
+              {hasSocial ? (
+                <div className="mt-1.5 flex items-center gap-3">
+                  {social?.facebook && (
+                    <a
+                      href={social.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Facebook"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-navy/15 text-navy/70 transition-colors hover:border-gold/50 hover:text-gold-deep"
+                    >
+                      <FacebookIcon />
+                    </a>
+                  )}
+                  {social?.tiktok && (
+                    <a
+                      href={social.tiktok}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="TikTok"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-navy/15 text-navy/70 transition-colors hover:border-gold/50 hover:text-gold-deep"
+                    >
+                      <TikTokIcon />
+                    </a>
+                  )}
+                  {social?.youtube && (
+                    <a
+                      href={social.youtube}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="YouTube"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-navy/15 text-navy/70 transition-colors hover:border-gold/50 hover:text-gold-deep"
+                    >
+                      <YouTubeIcon />
+                    </a>
+                  )}
+                </div>
+              ) : (
+                <p className="text-[16px] text-[#4b5566]">{t("contact.socialComingSoon")}</p>
+              )}
             </div>
           </div>
         </Reveal>

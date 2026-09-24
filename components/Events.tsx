@@ -5,6 +5,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import { useLanguage } from "@/lib/language";
+import { renderInlineRichText } from "@/lib/richText";
 
 export default function Events({ events }: { events: ChurchEvent[] }) {
   const { t } = useLanguage();
@@ -69,7 +70,7 @@ export default function Events({ events }: { events: ChurchEvent[] }) {
                           {event.title}
                         </h3>
                         {event.description && (
-                          <p className="text-[16px] text-[#4b5566]">{event.description}</p>
+                          <p className="text-[16px] text-[#4b5566]">{renderInlineRichText(event.description)}</p>
                         )}
                       </div>
                       <div className="mt-auto flex items-center justify-between gap-3 border-t border-navy/10 pt-4">

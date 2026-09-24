@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
         hostname: "*.supabase.co",
         pathname: "/storage/v1/object/public/**",
       },
+      // Public YouTube thumbnail host (sermon/Sunday-service video previews).
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
+      },
     ],
   },
   experimental: {

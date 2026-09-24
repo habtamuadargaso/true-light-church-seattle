@@ -1,11 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import PlayGlyph from "@/components/ui/PlayGlyph";
 import Reveal from "@/components/ui/Reveal";
 import { useLanguage } from "@/lib/language";
 import { getYouTubeThumbnailUrl } from "@/lib/youtube";
+import { renderInlineRichText } from "@/lib/richText";
 import type { Sermon } from "@/lib/data";
 
 export default function SundayWorshipService({ service }: { service: Sermon | null }) {
@@ -37,11 +39,13 @@ export default function SundayWorshipService({ service }: { service: Sermon | nu
               className="group relative block aspect-video overflow-hidden rounded-2xl border border-gold/30 shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
             >
               {thumbnailUrl ? (
-                <img
+                <Image
                   src={thumbnailUrl}
                   alt={service.title}
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  priority
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-br from-navy-light to-navy" />
@@ -55,7 +59,9 @@ export default function SundayWorshipService({ service }: { service: Sermon | nu
               <h3 className="font-serif text-2xl font-bold text-cream sm:text-3xl">{service.title}</h3>
               {meta && <p className="text-sm font-medium text-cream/60">{meta}</p>}
               {service.description && (
-                <p className="line-clamp-3 text-[16px] leading-[1.7] text-cream/80">{service.description}</p>
+                <p className="line-clamp-3 text-[16px] leading-[1.7] text-cream/80">
+                  {renderInlineRichText(service.description)}
+                </p>
               )}
               <div>
                 <Button href={`/sermons/${service.slug}`}>{t("sundayService.watchButton")}</Button>

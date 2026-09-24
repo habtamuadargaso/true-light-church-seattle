@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.shortName}`,
   },
   description: siteConfig.description,
+  alternates: {
+    canonical: "/",
+  },
   keywords: [
     "church in Shoreline WA",
     "church near Seattle",

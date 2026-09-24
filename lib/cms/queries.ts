@@ -19,6 +19,7 @@ import type {
   SiteSettings,
 } from "@/lib/cms/types";
 import { SITE_SETTING_KEYS } from "@/lib/cms/types";
+import { fallbackGalleryCaption, isNonDescriptiveCaption } from "@/lib/cms/gallery-shared";
 
 const EMPTY_SETTINGS: SiteSettings = Object.fromEntries(
   SITE_SETTING_KEYS.map((key) => [key, null])
@@ -41,6 +42,7 @@ function mapSermonRow(row: SermonRow): Sermon {
     description: row.description ?? "",
     youtubeUrl: row.youtube_url,
     scripture: row.scripture ?? undefined,
+    language: row.language ?? undefined,
   };
 }
 
@@ -181,7 +183,11 @@ export async function getGalleryItems(): Promise<GalleryViewItem[] | null> {
     return {
       id: row.id,
       src: publicUrl.publicUrl,
-      alt: row.alt_text,
+      // Rows uploaded before the alt-text fallback improved (or edited to a
+      // raw filename by hand) shouldn't expose that filename to visitors —
+      // fall back to the category instead of leaving it unfixed until an
+      // admin manually edits every photo.
+      alt: isNonDescriptiveCaption(row.alt_text) ? fallbackGalleryCaption(row.category) : row.alt_text,
       category: row.category,
     };
   });

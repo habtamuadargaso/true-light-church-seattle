@@ -166,7 +166,7 @@ export function BulkPhotoUploader() {
         // Only small JSON metadata crosses into the Server Action from here.
         const result = await createGalleryItemAction({
           imagePath: path,
-          altText: defaultAltTextFromFilename(item.file.name),
+          altText: defaultAltTextFromFilename(item.file.name, resolvedCategory),
           category: resolvedCategory,
           published: publishAll,
         });

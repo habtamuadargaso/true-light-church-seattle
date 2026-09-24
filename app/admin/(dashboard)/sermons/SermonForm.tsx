@@ -55,7 +55,7 @@ export function SermonForm({
         label="Language"
         defaultValue={sermon?.language}
         placeholder="English or Amharic"
-        hint="Informational only — not shown publicly yet."
+        hint="Shown as a filter on the public Messages page once more than one language is in use."
       />
 
       <TextAreaField name="description" label="Description" defaultValue={sermon?.description} />

@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { siteConfig } from "@/lib/site-config";
 import { useLanguage } from "@/lib/language";
 import { FacebookIcon, TikTokIcon, YouTubeIcon } from "@/components/ui/SocialIcons";
@@ -27,18 +28,21 @@ export default function Footer({
 }) {
   const currentYear = new Date().getFullYear();
   const { t } = useLanguage();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const anchorHref = (id: string) => (isHome ? `#${id}` : `/#${id}`);
 
   const quickLinks = [
-    { href: "#about", label: t("nav.about") },
-    { href: "#services", label: t("nav.services") },
-    { href: "#ministries", label: t("nav.ministries") },
-    { href: "#pastor", label: t("nav.pastor") },
-    { href: "#sermons", label: t("nav.sermons") },
-    { href: "#gallery", label: t("nav.gallery") },
-    { href: "#events", label: t("nav.events") },
-    { href: "#visit", label: t("nav.visit") },
-    { href: "#contact", label: t("nav.contact") },
-    { href: "#giving", label: t("footer.give") },
+    { href: anchorHref("about"), label: t("nav.about") },
+    { href: anchorHref("services"), label: t("nav.services") },
+    { href: anchorHref("ministries"), label: t("nav.ministries") },
+    { href: anchorHref("pastor"), label: t("nav.pastor") },
+    { href: "/sermons", label: t("nav.sermons") },
+    { href: anchorHref("gallery"), label: t("nav.gallery") },
+    { href: anchorHref("events"), label: t("nav.events") },
+    { href: anchorHref("visit"), label: t("nav.visit") },
+    { href: anchorHref("contact"), label: t("nav.contact") },
+    { href: anchorHref("giving"), label: t("footer.give") },
   ];
   const ministryLinks = [
     t("ministries.worship.title"),

@@ -9,6 +9,9 @@ export interface Sermon {
   youtubeUrl: string | null;
   // Optional scripture reference, e.g. "John 12:46".
   scripture?: string;
+  // Optional free-text language label set by admins (e.g. "English",
+  // "Amharic") — used to power the /sermons language filter when present.
+  language?: string;
 }
 
 // The `series` value that marks a sermon as a Sunday Worship Service for
