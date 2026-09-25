@@ -142,13 +142,16 @@ export async function getEvents(): Promise<ChurchEvent[]> {
   const supabase = createSupabasePublicClient();
   if (!supabase) return fallbackEvents;
 
-  const today = new Date().toISOString().slice(0, 10);
+  // The church's local date (not UTC, which rolls over at 5 PM Pacific and
+  // would hide that evening's events early). en-CA formats as YYYY-MM-DD.
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Los_Angeles" }).format(new Date());
   const { data, error } = await supabase
     .from("events")
     .select("*")
     .eq("published", true)
     .gte("event_date", today)
-    .order("event_date", { ascending: true });
+    .order("event_date", { ascending: true })
+    .order("start_time", { ascending: true, nullsFirst: false });
 
   if (error || !data) return fallbackEvents;
   return (data as EventRow[]).map((row) => {

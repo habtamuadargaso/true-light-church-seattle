@@ -1,6 +1,6 @@
 /**
  * Extracts the video ID from common YouTube URL formats: watch?v=,
- * youtu.be/, embed/, and shorts/. Returns null for anything else, including
+ * youtu.be/, embed/, shorts/, and live/. Returns null for anything else, including
  * malformed URLs — callers should treat that as "no valid video" and fall
  * back to a placeholder rather than rendering a broken player/thumbnail.
  */
@@ -21,6 +21,8 @@ export function getYouTubeVideoId(url: string | null | undefined): string | null
         id = parsed.pathname.split("/embed/")[1];
       } else if (parsed.pathname.startsWith("/shorts/")) {
         id = parsed.pathname.split("/shorts/")[1];
+      } else if (parsed.pathname.startsWith("/live/")) {
+        id = parsed.pathname.split("/live/")[1];
       }
     }
   } catch {

@@ -41,6 +41,30 @@ const translations: Record<Language, TranslationMap> = {
     "hero.factBible": "Thursday Bible Study",
     "hero.factBibleTime": "6:00 PM",
 
+    "welcome.eyebrow": "Welcome to True Light",
+    "welcome.titleLine1": "Come As You Are.",
+    "welcome.titleLine2": "Grow With Us.",
+    "welcome.body": "We are a warm, multicultural church family in Shoreline devoted to worship, prayer, and the teaching of God's Word. Whether you've followed Jesus for decades or are just beginning to explore faith, there is room for you here.",
+
+    "pathways.eyebrow": "Your Next Step",
+    "pathways.title": "Connect. Grow. Serve.",
+    "pathways.connect.title": "Connect",
+    "pathways.connect.desc": "Build relationships, worship together, and become part of the church family.",
+    "pathways.connect.cta": "Join Us Sunday",
+    "pathways.grow.title": "Grow",
+    "pathways.grow.desc": "Grow through God's Word, prayer, Bible study, and discipleship.",
+    "pathways.grow.cta": "Watch Messages",
+    "pathways.serve.title": "Serve",
+    "pathways.serve.desc": "Use your gifts to serve the church and community.",
+    "pathways.serve.cta": "Find a Ministry",
+
+    "gather.eyebrow": "Gather With Us",
+    "gather.title": "Join Us This Week",
+    "gather.body": "Worship, prayer, and the teaching of God's Word — every week in Shoreline.",
+
+    "final.title": "There's a Place for You Here.",
+    "final.body": "Whether this is your first Sunday or you're coming home, we would love to welcome you.",
+
     "about.eyebrow": "Who We Are",
     "about.title": "A Church Family Rooted in Christ's Light",
     "about.description": "True Light International Evangelical Church is a welcoming, multicultural congregation in Seattle devoted to worship, prayer, and the teaching of God's Word. We believe every person who walks through our doors is family — whether you've followed Jesus for decades or are just beginning to explore faith.",
@@ -49,7 +73,7 @@ const translations: Record<Language, TranslationMap> = {
     "about.stat2": "Active ministries",
     "about.stat3": "Weekly services",
 
-    "pastor.eyebrow": "Our Leadership",
+    "pastor.eyebrow": "A Legacy of Faith",
     "pastor.title": "A Servant of God, A Shepherd for His People",
     "pastor.intro": "{pastor} faithfully served our church family with a heart for God's Word, prayer, worship, and the Gospel of Jesus Christ.",
     "pastor.scripture": "\"I have fought the good fight,\nI have finished the race,\nI have kept the faith.\"",
@@ -72,6 +96,7 @@ const translations: Record<Language, TranslationMap> = {
     "ministries.title": "Our Ministries",
     "ministries.description": "There's a place for everyone to serve, grow, and belong.",
     "ministries.learnMore": "Learn More",
+    "ministries.cta": "Get Involved",
     "ministries.worship.title": "Worship Ministry",
     "ministries.worship.desc": "Leading the congregation in heartfelt worship through music and song.",
     "ministries.youth.title": "Youth Ministry",
@@ -105,6 +130,7 @@ const translations: Record<Language, TranslationMap> = {
     "sermons.latestMessage": "Latest Message",
     "sermons.library": "Message Library",
     "sermons.watchMessage": "Watch Message",
+    "sermons.viewAll": "View All Messages",
     "sermons.searchLabel": "Search messages",
     "sermons.searchPlaceholder": "Search by title, speaker, or scripture…",
     "sermons.filterSeriesLabel": "Series",
@@ -149,6 +175,7 @@ const translations: Record<Language, TranslationMap> = {
     "events.location": "Location",
     "events.register": "Register",
     "events.viewAll": "View All Events",
+    "events.upcoming": "Upcoming Events",
     "events.emptyTitle": "No Upcoming Events Right Now",
     "events.emptyBody": "Special events will be announced here as they're scheduled. Join us for Sunday Worship or Thursday Bible Study in the meantime.",
 
@@ -250,6 +277,30 @@ const translations: Record<Language, TranslationMap> = {
     "hero.factBible": "የሐሙስ መጽሐፍ ቅዱስ ጥናት",
     "hero.factBibleTime": "6:00 PM",
 
+    "welcome.eyebrow": "እንኳን ወደ እውነተኛ ብርሃን በደህና መጡ",
+    "welcome.titleLine1": "እንዳሉ ይምጡ።",
+    "welcome.titleLine2": "ከእኛ ጋር ያድጉ።",
+    "welcome.body": "በShoreline የምንገኝ፣ ለአምልኮ፣ ለጸሎት እና ለእግዚአብሔር ቃል ትምህርት የተሰጠን ሞቅ ያለ የእምነት ቤተሰብ ነን። ኢየሱስን ለዓመታት የተከተሉም ይሁኑ እምነትን ገና መመርመር የጀመሩ፣ እዚህ ስፍራ አለዎት።",
+
+    "pathways.eyebrow": "ቀጣዩ እርምጃዎ",
+    "pathways.title": "ይገናኙ። ያድጉ። ያገልግሉ።",
+    "pathways.connect.title": "ይገናኙ",
+    "pathways.connect.desc": "ግንኙነቶችን ይገንቡ፣ አብረን እናምልክ፣ የቤተ ክርስቲያኑም ቤተሰብ አካል ይሁኑ።",
+    "pathways.connect.cta": "እሁድ ይቀላቀሉን",
+    "pathways.grow.title": "ያድጉ",
+    "pathways.grow.desc": "በእግዚአብሔር ቃል፣ በጸሎት፣ በመጽሐፍ ቅዱስ ጥናት እና በደቀ መዝሙርነት ያድጉ።",
+    "pathways.grow.cta": "መልእክቶችን ይመልከቱ",
+    "pathways.serve.title": "ያገልግሉ",
+    "pathways.serve.desc": "ስጦታዎን ቤተ ክርስቲያንንና ማኅበረሰቡን ለማገልገል ይጠቀሙበት።",
+    "pathways.serve.cta": "አገልግሎት ያግኙ",
+
+    "gather.eyebrow": "ከእኛ ጋር ይሰብሰቡ",
+    "gather.title": "በዚህ ሳምንት ይቀላቀሉን",
+    "gather.body": "አምልኮ፣ ጸሎት እና የእግዚአብሔር ቃል ትምህርት — በየሳምንቱ በShoreline።",
+
+    "final.title": "እዚህ ለእርስዎ ስፍራ አለ።",
+    "final.body": "የመጀመሪያ እሁድዎ ይሁን ወደ ቤት መመለስዎ፣ ልንቀበልዎ ደስ ይለናል።",
+
     "about.eyebrow": "ማን ነን",
     "about.title": "በክርስቶስ ብርሃን የተመሠረተ የቤተ ክርስቲያን ቤተሰብ",
     "about.description": "እውነተኛ ብርሃን ዓለም አቀፍ ወንጌላዊ ቤተ ክርስቲያን በShoreline/Seattle አካባቢ የሚገኝ፣ ለአምልኮ፣ ለጸሎት እና ለእግዚአብሔር ቃል ትምህርት የተወሰነ ሞቅ ያለ የእምነት ቤተሰብ ነው። በቤታችን የሚገባ ሁሉ እንደ ቤተሰብ ይቀበላል።",
@@ -258,7 +309,7 @@ const translations: Record<Language, TranslationMap> = {
     "about.stat2": "ንቁ አገልግሎቶች",
     "about.stat3": "ሳምንታዊ አገልግሎቶች",
 
-    "pastor.eyebrow": "መሪነታችን",
+    "pastor.eyebrow": "የእምነት ውርስ",
     "pastor.title": "የእግዚአብሔር አገልጋይ፣ ለሕዝቡ እረኛ",
     "pastor.intro": "{pastor} ለእግዚአብሔር ቃል፣ ለጸሎት፣ ለአምልኮ እና ለኢየሱስ ክርስቶስ ወንጌል በተሰጠ ልብ የቤተ ክርስቲያናችንን ቤተሰብ በታማኝነት አገልግለዋል።",
     "pastor.scripture": "\"መልካሙን ገድል ተጋድያለሁ፣\nሩጫውን ጨርሻለሁ፣\nሃይማኖትን ጠብቄአለሁ።\"",
@@ -281,6 +332,7 @@ const translations: Record<Language, TranslationMap> = {
     "ministries.title": "አገልግሎቶቻችን",
     "ministries.description": "ለሁሉም ለማገልገል፣ ለማደግ እና ለመቀላቀል ቦታ አለ።",
     "ministries.learnMore": "ተጨማሪ ይወቁ",
+    "ministries.cta": "ይሳተፉ",
     "ministries.worship.title": "የአምልኮ አገልግሎት",
     "ministries.worship.desc": "በመዝሙርና በሙዚቃ ልባዊ አምልኮን መምራት።",
     "ministries.youth.title": "የወጣቶች አገልግሎት",
@@ -314,6 +366,7 @@ const translations: Record<Language, TranslationMap> = {
     "sermons.latestMessage": "የቅርብ ጊዜ መልእክት",
     "sermons.library": "የመልእክት ማዕከል",
     "sermons.watchMessage": "መልእክቱን ይመልከቱ",
+    "sermons.viewAll": "ሁሉንም መልእክቶች ይመልከቱ",
     "sermons.searchLabel": "መልእክቶችን ይፈልጉ",
     "sermons.searchPlaceholder": "በርዕስ፣ በተናጋሪ ወይም በመጽሐፍ ቅዱስ ጥቅስ ይፈልጉ…",
     "sermons.filterSeriesLabel": "ተከታታይ",
@@ -358,6 +411,7 @@ const translations: Record<Language, TranslationMap> = {
     "events.location": "ቦታ",
     "events.register": "ይመዝገቡ",
     "events.viewAll": "ሁሉንም ዝግጅቶች ይመልከቱ",
+    "events.upcoming": "መጪ ዝግጅቶች",
     "events.emptyTitle": "በአሁኑ ጊዜ ምንም ዝግጅት የለም",
     "events.emptyBody": "ልዩ ዝግጅቶች ሲታቀዱ እዚህ ይገለጻሉ። ለጊዜው በእሁድ አምልኮ ወይም በሐሙስ የመጽሐፍ ቅዱስ ጥናት ይቀላቀሉን።",
 
@@ -441,7 +495,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const saved = window.localStorage.getItem("true-light-language") as Language | null;
-    if (saved === "en" || saved === "am") setLangState(saved);
+    if (saved === "en" || saved === "am") {
+      setLangState(saved);
+      document.documentElement.lang = saved;
+    }
   }, []);
 
   const setLang = (nextLang: Language) => {

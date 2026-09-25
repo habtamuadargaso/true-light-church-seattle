@@ -2,8 +2,11 @@ import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/site-config";
 import { getSermons } from "@/lib/cms/queries";
 
+// Picks up newly published sermons without a redeploy.
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const routes = ["", "/sermons"].map((path) => ({
+  const routes = ["", "/sermons", "/events"].map((path) => ({
     url: `${siteConfig.url}${path}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,

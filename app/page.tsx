@@ -1,17 +1,18 @@
 import SiteHeader from "@/components/SiteHeader";
 import Hero from "@/components/Hero";
-import About from "@/components/About";
-import ServiceTimes from "@/components/ServiceTimes";
+import Welcome from "@/components/Welcome";
+import Pathways from "@/components/Pathways";
+import LatestMessage from "@/components/LatestMessage";
+import SundayWorshipService from "@/components/SundayWorshipService";
+import GatherWithUs from "@/components/GatherWithUs";
+import UpcomingEvents from "@/components/UpcomingEvents";
+import Mission from "@/components/Mission";
 import Ministries from "@/components/Ministries";
 import Pastor from "@/components/Pastor";
-import SundayWorshipService from "@/components/SundayWorshipService";
-import Sermons from "@/components/Sermons";
 import Gallery from "@/components/Gallery";
-import Events from "@/components/Events";
-import Mission from "@/components/Mission";
 import Giving from "@/components/Giving";
-import Visit from "@/components/Visit";
 import Contact from "@/components/Contact";
+import FinalInvitation from "@/components/FinalInvitation";
 import Footer from "@/components/Footer";
 import {
   getEvents,
@@ -22,6 +23,10 @@ import {
   getSundayWorshipService,
 } from "@/lib/cms/queries";
 
+// CMS edits revalidate "/" immediately; this timer additionally drops
+// events from "Upcoming Events" once their date has passed.
+export const revalidate = 300;
+
 export default async function Home() {
   const [sermons, events, gallery, settings, sundayService] = await Promise.all([
     getSermons(),
@@ -31,23 +36,30 @@ export default async function Home() {
     getSundayWorshipService(),
   ]);
   const pastorImageUrl = getPastorImageUrl(settings);
+  const latestSermon = sermons[0];
+  // The Sunday service recording only gets its own section when it isn't
+  // already the message featured above it.
+  const showSundayService = Boolean(sundayService && sundayService.slug !== latestSermon?.slug);
 
   return (
     <div className="w-full overflow-x-hidden bg-cream text-[#1b2430]">
       <SiteHeader />
       <main id="main-content">
+        {/* Visitor journey */}
         <Hero />
-        <About />
-        <ServiceTimes />
+        <Welcome />
+        <Pathways />
+        <LatestMessage sermon={latestSermon} />
+        {showSundayService && <SundayWorshipService service={sundayService} />}
+        <GatherWithUs />
+        <UpcomingEvents events={events} />
+        <Mission />
         <Ministries />
         <Pastor settings={settings} imageUrl={pastorImageUrl} />
-        <Sermons sermons={sermons} />
-        <SundayWorshipService service={sundayService} />
+
+        {/* Supporting sections — kept so every existing nav/footer anchor resolves */}
         <Gallery items={gallery} />
-        <Events events={events} />
-        <Mission />
         <Giving givingUrl={settings.giving_url} />
-        <Visit />
         <Contact
           contact={{ email: settings.church_email, phone: settings.church_phone }}
           social={{
@@ -56,6 +68,7 @@ export default async function Home() {
             youtube: settings.youtube_channel_url,
           }}
         />
+        <FinalInvitation />
       </main>
       <Footer
         social={{

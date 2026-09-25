@@ -1,61 +1,64 @@
 "use client";
 
-import SectionHeading from "@/components/ui/SectionHeading";
+import Image from "next/image";
+import Button from "@/components/ui/Button";
+import Eyebrow from "@/components/ui/Eyebrow";
 import Reveal from "@/components/ui/Reveal";
 import { useLanguage } from "@/lib/language";
 
-const ministryStyles = [
-  { key: "worship", letter: "W", bg: "#0b1f3a" },
-  { key: "youth", letter: "Y", bg: "#c9a45c" },
-  { key: "prayer", letter: "P", bg: "#0b1f3a" },
-  { key: "bible", letter: "B", bg: "#c9a45c" },
-  { key: "children", letter: "C", bg: "#0b1f3a" },
-  { key: "outreach", letter: "O", bg: "#c9a45c" },
-];
+const ministryKeys = ["worship", "youth", "prayer", "bible", "children", "outreach"];
 
 export default function Ministries() {
   const { t } = useLanguage();
 
   return (
-    <section id="ministries" className="mx-auto max-w-[1200px] px-[5%] py-32">
-      <div className="mb-16 flex justify-center">
-        <SectionHeading
-          eyebrow={t("ministries.eyebrow")}
-          title={t("ministries.title")}
-          description={t("ministries.description")}
-        />
-      </div>
+    <section id="ministries" className="bg-cream px-[5%] py-20 sm:py-24 lg:py-32">
+      <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+        <Reveal className="flex flex-col gap-8 lg:sticky lg:top-32 lg:self-start">
+          <div className="flex flex-col gap-5">
+            <Eyebrow>{t("ministries.eyebrow")}</Eyebrow>
+            <h2 className="font-serif text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.015em] text-balance text-navy">
+              {t("ministries.title")}
+            </h2>
+            <p className="max-w-[44ch] text-[17px] leading-[1.75] text-[#3f4a5a]">{t("ministries.description")}</p>
+          </div>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {ministryStyles.map((ministry, i) => (
-          <Reveal key={ministry.key} delay={Math.min(i * 0.06, 0.3)}>
-            <div className="group relative h-full overflow-hidden rounded-[22px] border border-navy/10 bg-gradient-to-br from-white to-cream/20 p-8 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-gold/30 hover:shadow-xl">
-              <span
-                aria-hidden
-                className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-gradient-to-r from-gold to-gold-light transition-transform duration-300 group-hover:scale-x-100"
-              />
-              <div className="absolute right-0 top-0 h-24 w-24 rounded-full opacity-5" style={{ background: ministry.bg }} />
-              <div
-                className="mb-6 flex h-16 w-16 items-center justify-center rounded-xl text-2xl font-bold text-cream shadow-md transition-transform duration-300 group-hover:scale-105"
-                style={{ background: ministry.bg }}
-              >
-                {ministry.letter}
-              </div>
-              <h3 className="mb-3 font-serif text-2xl font-bold text-navy">
-                {t(`ministries.${ministry.key}.title`)}
-              </h3>
-              <p className="text-[16px] leading-[1.6] text-[#4b5566]">
-                {t(`ministries.${ministry.key}.desc`)}
-              </p>
-              <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-gold-deep opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                {t("ministries.learnMore")}
-                <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </div>
-          </Reveal>
-        ))}
+          <div className="relative aspect-[3/2] overflow-hidden rounded-[20px] shadow-[0_30px_60px_-30px_rgba(11,31,58,0.45)]">
+            <Image
+              src="/worship-1.jpg"
+              alt={t("gallery.alt.worship1")}
+              fill
+              className="object-cover object-[50%_30%]"
+              sizes="(min-width: 1024px) 560px, 90vw"
+            />
+          </div>
+
+          <div className="hidden lg:block">
+            <Button href="#contact">{t("ministries.cta")}</Button>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <ol className="flex flex-col border-t border-navy/10">
+            {ministryKeys.map((key, i) => (
+              <li key={key} className="grid grid-cols-[2.75rem_1fr] gap-x-4 border-b border-navy/10 py-7 sm:grid-cols-[3.5rem_1fr]">
+                <span aria-hidden className="pt-1 font-serif text-[15px] font-semibold text-gold-deep">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div className="flex flex-col gap-2">
+                  <h3 className="font-serif text-[22px] font-semibold leading-snug text-navy sm:text-2xl">
+                    {t(`ministries.${key}.title`)}
+                  </h3>
+                  <p className="text-[16px] leading-[1.65] text-[#4b5566]">{t(`ministries.${key}.desc`)}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div className="mt-10 lg:hidden">
+            <Button href="#contact">{t("ministries.cta")}</Button>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

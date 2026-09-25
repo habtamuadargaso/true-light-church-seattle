@@ -7,7 +7,13 @@ import type { ReactNode } from "react";
  * dangerouslySetInnerHTML — so there is no HTML-injection surface even
  * though the source text is admin-authored, not sanitized.
  */
-export function renderRichText(text: string, paragraphClassName = ""): ReactNode[] {
+export function renderRichText(
+  text: string,
+  paragraphClassName = "",
+  background: "dark" | "light" = "dark"
+): ReactNode[] {
+  const headingClassName = background === "light" ? "text-gold-deep" : "text-gold";
+  const boldClassName = background === "light" ? "text-navy" : "text-cream";
   return text
     .split(/\n\s*\n/)
     .map((block) => block.trim())
@@ -16,27 +22,27 @@ export function renderRichText(text: string, paragraphClassName = ""): ReactNode
       const headingMatch = block.match(/^#{1,6}\s+(.*)$/);
       if (headingMatch) {
         return (
-          <p key={i} className="font-serif text-xl font-bold text-gold">
-            {renderInline(headingMatch[1])}
+          <p key={i} className={`font-serif text-xl font-bold ${headingClassName}`}>
+            {renderInline(headingMatch[1], boldClassName)}
           </p>
         );
       }
       return (
         <p key={i} className={paragraphClassName}>
-          {renderInline(block)}
+          {renderInline(block, boldClassName)}
         </p>
       );
     });
 }
 
-function renderInline(text: string): ReactNode[] {
+function renderInline(text: string, boldClassName: string): ReactNode[] {
   return text
     .split(/(\*\*[^*]+\*\*)/g)
     .filter(Boolean)
     .map((part, i) => {
       const boldMatch = part.match(/^\*\*([^*]+)\*\*$/);
       return boldMatch ? (
-        <strong key={i} className="font-semibold text-cream">
+        <strong key={i} className={`font-semibold ${boldClassName}`}>
           {boldMatch[1]}
         </strong>
       ) : (
